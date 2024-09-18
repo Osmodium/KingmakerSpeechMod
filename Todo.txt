@@ -1,3 +1,14 @@
+✅ Look into license agreement
+/Canvas/TermOfUse/Body/MainContent/Scroll View/Viewport/Content/Licence
+Kingmaker.UI.TermsOfUseController
+
+✅ Automatic playback with narrator, female and male voices.
+Kingmaker.UI.Dialog.DialogCurrentPart?
+Kingmaker.UI.Dialog.DialogController
+
+🔲 Add playback button in the dialog view
+StaticCanvas/Dialogue/Body/View/Scroll View/Viewport/Content/CurrentPart/DialoguePhrase
+
 🔲 Start screen motivation text
 !LIGHT_SETUP/SceneUICanvas/Motivation/Label/
 Kingmaker.UI.MainMenuUI.MotivationTextView
@@ -26,11 +37,6 @@ Kingmaker.UI.BookEvent.BookEventInterchapterController
 🔲 Bookevent
 /StaticCanvas/BookEvent/Window/Content/Cues/Viewport/Content/
 Kingmaker.UI.BookEvent.BookEventController
-
-🔲 Dialog
-StaticCanvas/Dialogue/Body/View/Scroll View/Viewport/Content/CurrentPart/DialoguePhrase
-Kingmaker.UI.Dialog.DialogCurrentPart?
-Kingmaker.UI.Dialog.DialogController
 
 🔲 Name of left dialog character
 StaticCanvas/Dialogue/AnswerBlock/AnswerName
@@ -74,6 +80,3 @@ Kingmaker.UI.ServiceWindow.CharacterScreen.CharSComponentStory
 🔲 Look into Barks
 Kingmaker.UI.Overtip.OvertipController
 
-🔲 Look into license agreement
-/Canvas/TermOfUse/Body/MainContent/Scroll View/Viewport/Content/Licence
-Kingmaker.UI.TermsOfUseController
