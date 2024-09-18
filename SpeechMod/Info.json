@@ -1,0 +1,11 @@
+{
+  "Id": "SpeechMod",
+  "DisplayName": "Kingmaker - SpeechMod",
+  "Author": "Osmodium",
+  "ManagerVersion": "0.25.0",
+  "Requirements": [],
+  "AssemblyName": "PFKingmakerSpeechMod.dll",
+  "EntryMethod": "SpeechMod.Main.Load",
+  "HomePage": "https://www.nexusmods.com/warhammer40kroguetrader/mods/75",
+  "Version": "0.1.0"
+}

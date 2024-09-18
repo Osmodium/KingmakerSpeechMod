@@ -1,0 +1,79 @@
+🔲 Start screen motivation text
+!LIGHT_SETUP/SceneUICanvas/Motivation/Label/
+Kingmaker.UI.MainMenuUI.MotivationTextView
+
+🔲 Campaign description
+/Canvas/NewGameWindow/Body/Content/Story/DescriptionBlock/Description/
+
+🔲 Character description block
+Canvas/NewGameWindow/Body/Content/Pregen/PregenSelector/Description/DescriptionView/Viewport/Content/Content/Description (1)
+Kingmaker.UI.Tooltip.DescriptionBricksBox
+
+🔲 Race description
+Canvas/CharacterBuild/Body/Content/Progression/CharacterClassDescription/0_Layer/DescriptionBody/Content (2)/Viewport/ViewPortContent/Content (1)/ParagraphText(Clone)/Text
+Kingmaker.UI.Tooltip.DescriptionBrick
+
+🔲 Tooltip text
+Canvas/Tooltips/DescWinConstructor/Window/Content/Scroll View/Viewport/Content/ParagraphText(Clone)/Text
+Kingmaker.UI.Tooltip.DescriptionBrick
+
+🔲 Bookevent interchapter
+/StaticCanvas/BookEventInterchapter/Window/Content/TitleTape
+/StaticCanvas/BookEventInterchapter/Window/Content/Cue
+/StaticCanvas/BookEventInterchapter/Window/Content/Answer
+Kingmaker.UI.BookEvent.BookEventInterchapterController
+
+🔲 Bookevent
+/StaticCanvas/BookEvent/Window/Content/Cues/Viewport/Content/
+Kingmaker.UI.BookEvent.BookEventController
+
+🔲 Dialog
+StaticCanvas/Dialogue/Body/View/Scroll View/Viewport/Content/CurrentPart/DialoguePhrase
+Kingmaker.UI.Dialog.DialogCurrentPart?
+Kingmaker.UI.Dialog.DialogController
+
+🔲 Name of left dialog character
+StaticCanvas/Dialogue/AnswerBlock/AnswerName
+Right dialog character
+StaticCanvas/Dialogue/SpeakerBlock/SpeakerName
+Kingmaker.UI.Dialog.DialogController
+
+🔲 Journal Quest Title
+/StaticCanvas/ServiceWindow/Journal/Content/QuestContentElement/Header
+Kingmaker.UI.Journal.JournalQuestElement
+Kingmaker.UI.Journal.JournalQuestLog
+
+🔲 Journal Quest Description
+/StaticCanvas/ServiceWindow/Journal/Content/QuestContentElement/Description
+Kingmaker.UI.Journal.JournalQuestElement
+Kingmaker.UI.Journal.JournalQuestLog
+
+🔲 Journal Quest part header
+/StaticCanvas/ServiceWindow/Journal/Content/QuestContentElement/Body/Scroll View/Viewport/Content/QuestObjective(Clone)/Header/Header
+Kingmaker.UI.Journal.JournalQuestObjective
+
+🔲 Journal Quest part description
+/StaticCanvas/ServiceWindow/Journal/Content/QuestContentElement/Body/Scroll View/Viewport/Content/QuestObjective(Clone)/Body/Description
+Kingmaker.UI.Journal.JournalQuestObjective
+
+🔲 Hint (small?) description
+/StaticCanvas/Tooltips/TutorialHint/Content/Content/ParagraphText(Clone)/Text
+
+🔲 Hint H1 header
+/StaticCanvas/Tooltips/TutorialHint/Content/Header/Title-H1(Clone)/Title-H1
+
+🔲 Hint (big) text
+/StaticCanvas/Tooltips/TutorialConstructorBig/Window/Content/Content/ParagraphText(Clone)/Text
+
+🔲 Story text
+/StaticCanvas/ServiceWindow/CharacterScreen/Story/Stories/StoryEntry/StoryContent/TextBox/Text
+Header
+/StaticCanvas/ServiceWindow/CharacterScreen/Story/Stories/StoryEntry/StoryContent/TextBox/Label (1)/Label
+Kingmaker.UI.ServiceWindow.CharacterScreen.CharSComponentStory
+
+🔲 Look into Barks
+Kingmaker.UI.Overtip.OvertipController
+
+🔲 Look into license agreement
+/Canvas/TermOfUse/Body/MainContent/Scroll View/Viewport/Content/Licence
+Kingmaker.UI.TermsOfUseController
