@@ -6,9 +6,9 @@ namespace SpeechMod.Unity;
 
 public static class MenuGUI
 {
-    private static string m_NarratorPreviewText = "Speech Mod for Warhammer 40K: Rogue Trader - Narrator voice speech test";
-    private static string m_FemalePreviewText = "Speech Mod for Warhammer 40K: Rogue Trader - Female voice speech test";
-    private static string m_MalePreviewText = "Speech Mod for Warhammer 40K: Rogue Trader - Male voice speech test";
+    private static string m_NarratorPreviewText = "Speech Mod for Pathfinder Kingmaker - Narrator voice speech test";
+    private static string m_FemalePreviewText = "Speech Mod for Pathfinder Kingmaker - Female voice speech test";
+    private static string m_MalePreviewText = "Speech Mod for Pathfinder Kingmaker - Male voice speech test";
 
     public static void OnGui()
     {

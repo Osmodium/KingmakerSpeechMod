@@ -39,7 +39,7 @@ public static class Main
 
     private static bool Load(UnityModManager.ModEntry modEntry)
     {
-        Debug.Log("Warhammer 40K: Rogue Trader Speech Mod Initializing...");
+        Debug.Log("Pathfinder Kingmaker Speech Mod Initializing...");
 
         Logger = modEntry?.Logger;
 
@@ -63,7 +63,7 @@ public static class Main
 
         PhoneticDictionary.LoadDictionary();
 
-        Debug.Log("Warhammer 40K: Rogue Trader Speech Mod Initialized!");
+        Debug.Log("Pathfinder Kingmaker Speech Mod Initialized!");
         m_Loaded = true;
         return true;
     }
@@ -129,7 +129,7 @@ public static class Main
                 SpeechExtensions.AddUiElements<WindowsVoiceUnity>(Constants.WINDOWS_VOICE_NAME);
                 break;
             default:
-                Logger?.Critical($"Warhammer 40K: Rogue Trader SpeechMod is not supported on {Application.platform}!");
+                Logger?.Critical($"Pathfinder Kingmaker SpeechMod is not supported on {Application.platform}!");
                 return false;
         }
 

@@ -7,10 +7,12 @@ Kingmaker.UI.Dialog.DialogCurrentPart?
 Kingmaker.UI.Dialog.DialogController
 
 🔲 Add playback button in the dialog view
-StaticCanvas/Dialogue/Body/View/Scroll View/Viewport/Content/CurrentPart/DialoguePhrase
+/StaticCanvas/Dialogue/Body/View/Scroll View/Viewport/Content/CurrentPart/DialoguePhrase
+/StaticCanvas/ServiceWindow/Encyclopedia/PathView/Next
+/StaticCanvas/Dialogue/Body/View/Scroll View/ButtonEdge
 
 🔲 Start screen motivation text
-!LIGHT_SETUP/SceneUICanvas/Motivation/Label/
+/!LIGHT_SETUP/SceneUICanvas/Motivation/Label/
 Kingmaker.UI.MainMenuUI.MotivationTextView
 
 🔲 Campaign description
@@ -24,7 +26,7 @@ Kingmaker.UI.Tooltip.DescriptionBricksBox
 Canvas/CharacterBuild/Body/Content/Progression/CharacterClassDescription/0_Layer/DescriptionBody/Content (2)/Viewport/ViewPortContent/Content (1)/ParagraphText(Clone)/Text
 Kingmaker.UI.Tooltip.DescriptionBrick
 
-🔲 Tooltip text
+✅ Tooltip text
 Canvas/Tooltips/DescWinConstructor/Window/Content/Scroll View/Viewport/Content/ParagraphText(Clone)/Text
 Kingmaker.UI.Tooltip.DescriptionBrick
 
@@ -80,3 +82,10 @@ Kingmaker.UI.ServiceWindow.CharacterScreen.CharSComponentStory
 🔲 Look into Barks
 Kingmaker.UI.Overtip.OvertipController
 
+🔲 Add Encyclopedia playback buttons
+Kingmaker.UI.ServiceWindow.Encyclopedia.Blocks.EncyclopediaBlockRootPage
+Kingmaker.UI.ServiceWindow.Encyclopedia.Blocks.EncyclopediaBlockText
+
+🔲 Look into loading screen
+/Canvas/LoadingScreen/Window/HintBlock/Background/Paper/Background/HintLabel
+Kingmaker.UI.LoadingScreen.LoadingScreen
