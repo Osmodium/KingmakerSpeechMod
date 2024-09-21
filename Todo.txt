@@ -6,10 +6,11 @@ Kingmaker.UI.TermsOfUseController
 Kingmaker.UI.Dialog.DialogCurrentPart?
 Kingmaker.UI.Dialog.DialogController
 
-🔲 Add playback button in the dialog view
+✅ Add playback button in the dialog view
 /StaticCanvas/Dialogue/Body/View/Scroll View/Viewport/Content/CurrentPart/DialoguePhrase
 /StaticCanvas/ServiceWindow/Encyclopedia/PathView/Next
 /StaticCanvas/Dialogue/Body/View/Scroll View/ButtonEdge
+Look at the globalmap_arrow for a possible better arrow
 
 🔲 Start screen motivation text
 /!LIGHT_SETUP/SceneUICanvas/Motivation/Label/
