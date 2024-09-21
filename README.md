@@ -123,7 +123,7 @@ The different settings (available through *ctrl+f10* if not overridden in the UM
 
 ### Motivation
 *Why did I create the mods?*
-After having created the "same" mod for [Pathfinder: Wrath of the Righteous](https://www.nexusmods.com/pathfinderwrathoftherighteous/mods/241) and [Pathfinder Kingmaker](https://www.nexusmods.com/warhammer40kroguetrader/mods/75), I got requests of doing it for this game too, and since I also wanted to play it, I graciousky obliged, even though it's been a while.
+After having created the "same" mod for [Pathfinder: Wrath of the Righteous](https://www.nexusmods.com/pathfinderwrathoftherighteous/mods/241) and [Warhammer 40K: Rogue Trader](https://www.nexusmods.com/warhammer40kroguetrader/mods/75), I got requests of doing it for this game too, and since I also wanted to play it, I graciousky obliged, even though it's been a while.
 
 I have come to realize that I spend a lot of my energy through the day on various activities, so when I get to play a game I rarely have enough energy left over to focus on reading long passages of text. So I thought it nice if I could get a helping hand so I wouldn't miss out on the excellent stories and writing in text heavy games.
 
