@@ -161,14 +161,15 @@ public static class MenuGUI
 
         GUILayout.BeginVertical("", GUI.skin.box);
 
-        GUILayout.BeginHorizontal();
-        GUILayout.Label("Phonetic dictionary", GUILayout.ExpandWidth(false));
-        GUILayout.Space(10);
-        if (GUILayout.Button("Reload", GUILayout.ExpandWidth(false)))
-            PhoneticDictionary.LoadDictionary();
-        GUILayout.EndHorizontal();
+		// Bug with Newtonsoft JSON, can't deserialize the dictionary, when it has already been deserialized.
+		//GUILayout.BeginHorizontal();
+		//GUILayout.Label("Phonetic dictionary", GUILayout.ExpandWidth(false));
+		//GUILayout.Space(10);
+		//if (GUILayout.Button("Reload", GUILayout.ExpandWidth(false)))
+		//    PhoneticDictionary.LoadDictionary();
+		//GUILayout.EndHorizontal();
 
-        GUILayout.EndVertical();
+		GUILayout.EndVertical();
     }
 
     private static void AddVoiceSelector(string label, ref int voice, ref string previewString, ref int rate, ref int volume, ref int pitch, VoiceType type)

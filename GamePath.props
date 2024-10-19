@@ -1,5 +1,5 @@
-﻿<Project xmlns='http://schemas.microsoft.com/developer/msbuild/2003'> 
-	<PropertyGroup> 
+﻿<Project xmlns='http://schemas.microsoft.com/developer/msbuild/2003'>
+	<PropertyGroup>
 		<PathfinderInstallDir>D:\Games\SteamGames\steamapps\common\Pathfinder Kingmaker</PathfinderInstallDir>
 	</PropertyGroup>
 </Project>

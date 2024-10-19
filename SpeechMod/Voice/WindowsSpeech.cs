@@ -59,7 +59,7 @@ public class WindowsSpeech : ISpeech
 
     private string FormatGenderSpecificVoices(string text)
     {
-        text = text.Replace($"<color=#{Constants.NARRATOR_COLOR_CODE}>", $"</voice>{CombinedNarratorVoiceStart}");
+        text = Regex.Replace(text,$"<color=#{Constants.NARRATOR_COLOR_CODE}>", $"</voice>{CombinedNarratorVoiceStart}", RegexOptions.IgnoreCase);
         text = text.Replace("</color>", $"</voice>{CombinedDialogVoiceStart}");
 
         if (text.StartsWith("</voice>"))

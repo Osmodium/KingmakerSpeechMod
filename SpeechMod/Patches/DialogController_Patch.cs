@@ -12,7 +12,7 @@ namespace SpeechMod.Patches;
 [HarmonyPatch]
 public class DialogController_Patch
 {
-	[HarmonyPatch(typeof(DialogController), "SelectAnswer", typeof(BlueprintAnswer), typeof(UnitEntityData))]
+	[HarmonyPatch(typeof(DialogController), nameof(DialogController.SelectAnswer), typeof(BlueprintAnswer), typeof(UnitEntityData))]
 	[HarmonyPrefix]
     public static void SelectAnswer_Prefix(BlueprintAnswer answer)
     {
@@ -20,7 +20,7 @@ public class DialogController_Patch
             return;
 
 #if DEBUG
-        Debug.Log($"{nameof(DialogController)}_SelectAnswer_Prefix");
+        Debug.Log($"{nameof(DialogController)}_{nameof(SelectAnswer_Prefix)}");
 #endif
 
         if (!Main.Settings!.AutoPlay)

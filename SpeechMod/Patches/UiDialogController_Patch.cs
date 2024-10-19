@@ -2,50 +2,106 @@
 using Kingmaker;
 using Kingmaker.Controllers.Dialog;
 using Kingmaker.Localization;
-using Debug = UnityEngine.Debug;
+using SpeechMod.Unity;
+using SpeechMod.Unity.Extensions;
+using UnityEngine;
 using DialogController = Kingmaker.UI.Dialog.DialogController;
-#if DEBUG
-#endif
 
 namespace SpeechMod.Patches;
 
 [HarmonyPatch]
 public static class UiDialogController_Patch
 {
-	[HarmonyPatch(typeof(DialogController), "HandleOnCueShow", typeof(CueShowData))]
+    private const string SPEECHMOD_DIALOGBUTTON_NAME = "SpeechMod_DialogButton";
+    private const string SCROLL_VIEW_PATH = "/StaticCanvas/Dialogue/Body/View/Scroll View";
+
 	[HarmonyPostfix]
-	public static void HandleOnCueShow_Postfix()
-	{
-		if (!Main.Enabled)
-			return;
+	[HarmonyPatch(typeof(DialogController), nameof(DialogController.Initialize))]
+    public static void Initialize_Postfix()
+    {
+        if (!Main.Enabled)
+            return;
 
 #if DEBUG
-		Debug.Log($"{nameof(DialogController)}_HandleOnCueShow_Postfix");
+        var sceneName = Game.Instance!.CurrentlyLoadedArea.CustomUIScene.SceneName;
+        Debug.Log($"{nameof(DialogController)}_{nameof(Initialize_Postfix)} @ {sceneName}");
 #endif
 
-		if (!Main.Settings!.AutoPlay)
-		{
+        AddDialogButtonByPath(SCROLL_VIEW_PATH);
+    }
+
+    private static void AddDialogButtonByPath(string path)
+    {
+
 #if DEBUG
-			Debug.Log($"{nameof(DialogController)}: AutoPlay is disabled!");
+        Debug.Log($"Adding speech button to dialog ui on '{path}'");
 #endif
-			return;
-		}
 
-		string key = Game.Instance?.DialogController?.CurrentCue?.Text?.Key;
-		if (string.IsNullOrWhiteSpace(key))
-			key = Game.Instance?.DialogController?.CurrentCue?.Text?.Shared?.String?.Key;
+        var parent = UIHelper.TryFind(path);
 
-		if (string.IsNullOrWhiteSpace(key))
-			return;
+        if (parent == null)
+        {
+            Debug.LogWarning("Parent not found!");
+            return;
+        }
 
-		// Stop playing and don't play if the dialog is voice acted.
-		if (!Main.Settings.AutoPlayIgnoreVoice &&
-		    !string.IsNullOrWhiteSpace(LocalizationManager.SoundPack?.GetText(key, false)))
-		{
-			Main.Speech?.Stop();
-			return;
-		}
 
-		Main.Speech?.SpeakDialog(Game.Instance?.DialogController?.CurrentCue?.DisplayText, 0.5f);
-	}
+        if (parent.TryFind(SPEECHMOD_DIALOGBUTTON_NAME) != null)
+        {
+            Debug.LogWarning("Button already exists!");
+            return;
+        }
+
+        var buttonGameObject = ButtonFactory.TryCreatePlayButton(parent, () =>
+        {
+            Main.Speech?.SpeakDialog(Game.Instance?.DialogController?.CurrentCue?.DisplayText);
+        });
+
+        if (buttonGameObject == null)
+        {
+            return;
+        }
+
+        buttonGameObject.name = SPEECHMOD_DIALOGBUTTON_NAME;
+        buttonGameObject.RectAlignTopLeft(new Vector2(-12f, -20f));
+
+        buttonGameObject.SetActive(true);
+    }
+
+    [HarmonyPatch(typeof(DialogController), nameof(DialogController.HandleOnCueShow), typeof(CueShowData))]
+    [HarmonyPostfix]
+    public static void HandleOnCueShow_Postfix()
+    {
+	    if (!Main.Enabled)
+		    return;
+
+#if DEBUG
+	    Debug.Log($"{nameof(DialogController)}_{nameof(HandleOnCueShow_Postfix)}");
+#endif
+
+	    if (!Main.Settings!.AutoPlay)
+	    {
+#if DEBUG
+		    Debug.Log($"{nameof(DialogController)}: AutoPlay is disabled!");
+#endif
+		    return;
+	    }
+
+	    string key = Game.Instance?.DialogController?.CurrentCue?.Text?.Key;
+	    if (string.IsNullOrWhiteSpace(key))
+		    key = Game.Instance?.DialogController?.CurrentCue?.Text?.Shared?.String?.Key;
+
+	    if (string.IsNullOrWhiteSpace(key))
+		    return;
+
+	    // Stop playing and don't play if the dialog is voice acted.
+	    if (!Main.Settings.AutoPlayIgnoreVoice &&
+	        !string.IsNullOrWhiteSpace(LocalizationManager.SoundPack?.GetText(key, false)))
+	    {
+		    Main.Speech?.Stop();
+		    return;
+	    }
+
+	    Main.Speech?.SpeakDialog(Game.Instance?.DialogController?.CurrentCue?.DisplayText, 0.5f);
+    }
 }

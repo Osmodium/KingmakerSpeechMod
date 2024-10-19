@@ -10,7 +10,7 @@ namespace SpeechMod.Patches;
 [HarmonyPatch]
 public class TermsOfUsePCView_Patch
 {
-	[HarmonyPatch(typeof(TermsOfUseController), "OnShow")]
+	[HarmonyPatch(typeof(TermsOfUseController), nameof(TermsOfUseController.OnShow))]
     [HarmonyPostfix]
 	public static void OnShot_Postfix(TermsOfUseController __instance)
     {
@@ -18,7 +18,7 @@ public class TermsOfUsePCView_Patch
             return;
 
 #if DEBUG
-        Debug.Log($"{nameof(TermsOfUseController)}_OnShow_Postfix");
+        Debug.Log($"{nameof(TermsOfUseController)}_{nameof(OnShot_Postfix)}");
 #endif
 
         __instance.m_Title.HookupTextToSpeech();

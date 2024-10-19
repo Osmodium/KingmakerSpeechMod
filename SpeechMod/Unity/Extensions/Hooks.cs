@@ -65,11 +65,11 @@ public static class Hooks
 
         foreach (var textMeshPro in textMeshPros)
         {
-            textMeshPro.HookupTextToSpeech(force);
+            textMeshPro.HookupTextToSpeech(null, force);
         }
     }
 
-    public static void HookupTextToSpeech(this TextMeshProUGUI textMeshPro, bool force = false)
+    public static void HookupTextToSpeech(this TextMeshProUGUI textMeshPro, string textOverride = null, bool force = false)
     {
         if (textMeshPro == null)
         {
@@ -98,6 +98,10 @@ public static class Hooks
 		hookData.FontStyles = textMeshPro.fontStyle;
 		hookData.Color = textMeshPro.color;
 		hookData.ExtraPadding = textMeshPro.extraPadding;
+        if (textOverride != null)
+		{
+			hookData.TextOverride = textOverride;
+		}
 
 		// Add the block pointer propagation component to the text mesh pro, so that it blocks the pointer from triggering elements behind it.
 		textMeshProTransform.EnsureComponent<BlockPointerPropagation>();
@@ -133,7 +137,7 @@ public static class Hooks
 
 		// Subscribe to the pointer exit, and add it to the disposables for ensuring it gets cleaned up.
 		textMeshPro.OnPointerExitAsObservable().Subscribe(
-	        data =>
+			_ =>
 	        {
 		        textMeshPro.fontStyle = hookData.FontStyles;
 		        textMeshPro.color = hookData.Color;
@@ -147,7 +151,7 @@ public static class Hooks
 	        {
 		        if (clickEvent?.button == UnityEngine.EventSystems.PointerEventData.InputButton.Left)
 		        {
-			        Main.Speech?.Speak(textMeshPro.text);
+			        Main.Speech?.Speak(hookData.TextOverride ?? textMeshPro.text);
 		        }
 	        }
         ).AddTo(hookData.Disposables);
