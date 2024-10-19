@@ -93,15 +93,9 @@ public static class MenuGUI
             GUILayout.Space(10);
             Main.Settings.SayDialogAnswerNumber = GUILayout.Toggle(Main.Settings.SayDialogAnswerNumber, "Enabled");
             GUILayout.EndHorizontal();
-
-            GUILayout.EndVertical();
-
-            AddColorPicker("Color answer on hover", ref Main.Settings.DialogAnswerColorOnHover, "Hover color", ref Main.Settings.DialogAnswerHoverColorR, ref Main.Settings.DialogAnswerHoverColorG, ref Main.Settings.DialogAnswerHoverColorB);
         }
-        else
-        {
-            GUILayout.EndVertical();
-        }
+
+        GUILayout.EndVertical();
 
         GUILayout.BeginVertical("", GUI.skin.box);
 
@@ -161,14 +155,6 @@ public static class MenuGUI
 
         GUILayout.BeginVertical("", GUI.skin.box);
 
-		// Bug with Newtonsoft JSON, can't deserialize the dictionary, when it has already been deserialized.
-		//GUILayout.BeginHorizontal();
-		//GUILayout.Label("Phonetic dictionary", GUILayout.ExpandWidth(false));
-		//GUILayout.Space(10);
-		//if (GUILayout.Button("Reload", GUILayout.ExpandWidth(false)))
-		//    PhoneticDictionary.LoadDictionary();
-		//GUILayout.EndHorizontal();
-
 		GUILayout.EndVertical();
     }
 
@@ -221,7 +207,7 @@ public static class MenuGUI
         }
 
         GUILayout.BeginHorizontal();
-        GUILayout.Label("Preivew voice", GUILayout.ExpandWidth(false));
+        GUILayout.Label("Preview voice", GUILayout.ExpandWidth(false));
         GUILayout.Space(10);
         previewString = GUILayout.TextField(previewString, GUILayout.Width(700f));
         if (GUILayout.Button("Play", GUILayout.ExpandWidth(true)))
@@ -233,7 +219,7 @@ public static class MenuGUI
 
     private static void AddColorPicker(string enableLabel, ref bool enabledBool, string colorLabel, ref float r, ref float g, ref float b)
     {
-        float a = 1;
+        var a = 1.0f;
         AddColorPicker(enableLabel, ref enabledBool, colorLabel, ref r, ref g, ref b, ref a, false);
     }
 

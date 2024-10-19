@@ -47,21 +47,21 @@ Right dialog character
 StaticCanvas/Dialogue/SpeakerBlock/SpeakerName
 Kingmaker.UI.Dialog.DialogController
 
-🔲 Journal Quest Title
+✅ Journal Quest Title
 /StaticCanvas/ServiceWindow/Journal/Content/QuestContentElement/Header
 Kingmaker.UI.Journal.JournalQuestElement
 Kingmaker.UI.Journal.JournalQuestLog
 
-🔲 Journal Quest Description
+✅ Journal Quest Description
 /StaticCanvas/ServiceWindow/Journal/Content/QuestContentElement/Description
 Kingmaker.UI.Journal.JournalQuestElement
 Kingmaker.UI.Journal.JournalQuestLog
 
-🔲 Journal Quest part header
+✅ Journal Quest part header
 /StaticCanvas/ServiceWindow/Journal/Content/QuestContentElement/Body/Scroll View/Viewport/Content/QuestObjective(Clone)/Header/Header
 Kingmaker.UI.Journal.JournalQuestObjective
 
-🔲 Journal Quest part description
+✅ Journal Quest part description
 /StaticCanvas/ServiceWindow/Journal/Content/QuestContentElement/Body/Scroll View/Viewport/Content/QuestObjective(Clone)/Body/Description
 Kingmaker.UI.Journal.JournalQuestObjective
 
@@ -74,7 +74,7 @@ Kingmaker.UI.Journal.JournalQuestObjective
 🔲 Hint (big) text
 /StaticCanvas/Tooltips/TutorialConstructorBig/Window/Content/Content/ParagraphText(Clone)/Text
 
-🔲 Story text
+✅ Story text
 /StaticCanvas/ServiceWindow/CharacterScreen/Story/Stories/StoryEntry/StoryContent/TextBox/Text
 Header
 /StaticCanvas/ServiceWindow/CharacterScreen/Story/Stories/StoryEntry/StoryContent/TextBox/Label (1)/Label
@@ -83,10 +83,10 @@ Kingmaker.UI.ServiceWindow.CharacterScreen.CharSComponentStory
 🔲 Look into Barks
 Kingmaker.UI.Overtip.OvertipController
 
-🔲 Add Encyclopedia playback buttons
+✅ Add Encyclopedia playback buttons
 Kingmaker.UI.ServiceWindow.Encyclopedia.Blocks.EncyclopediaBlockRootPage
 Kingmaker.UI.ServiceWindow.Encyclopedia.Blocks.EncyclopediaBlockText
 
-🔲 Look into loading screen
+✅ Look into loading screen
 /Canvas/LoadingScreen/Window/HintBlock/Background/Paper/Background/HintLabel
 Kingmaker.UI.LoadingScreen.LoadingScreen
