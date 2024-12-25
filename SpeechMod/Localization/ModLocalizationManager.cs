@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using Kingmaker.Localization;
+﻿using Kingmaker.Localization;
 using Kingmaker.Localization.Shared;
 using Newtonsoft.Json;
 using SpeechMod.Configuration;
+using System.Collections.Generic;
+using System.IO;
+using UnityEngine;
 
 namespace SpeechMod.Localization;
 
@@ -16,7 +17,7 @@ internal class ModLocalizationManager
         m_EnPack = LoadPack(Locale.enGB);
 
         ApplyLocalization(LocalizationManager.CurrentLocale);
-        
+
         //LocalizationManager.OnLocaleChanged += ApplyLocalization;
     }
 
@@ -26,6 +27,7 @@ internal class ModLocalizationManager
         if (currentPack == null) return;
         foreach (var entry in m_EnPack.Strings)
         {
+            Debug.Log($"Adding {entry.Key}: {entry.Value.Text} to current pack strings...");
             currentPack.Strings.Add(entry.Key, entry.Value.Text);
         }
 
@@ -90,7 +92,7 @@ internal class ModLocalizationManager
     }
 }
 
-public record class ModLocalizationPack
+public record ModLocalizationPack
 {
     [JsonProperty]
     public Dictionary<string, ModLocalizationEntry> Strings;

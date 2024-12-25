@@ -1,5 +1,6 @@
 ﻿using System;
 using Kingmaker.UI.SettingsUI;
+using UnityEngine;
 
 namespace SpeechMod.Configuration.Settings;
 
@@ -26,7 +27,11 @@ public abstract class ModSettingEntry
 
     protected SettingStatus TryPatchInternal(params Type[] type)
     {
-        if (Status != SettingStatus.NOT_APPLIED) return Status;
+        Debug.Log("TryPatchInternal");
+
+        if (Status != SettingStatus.NOT_APPLIED)
+            return Status;
+
         try
         {
             foreach (var t in type)
