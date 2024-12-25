@@ -15,8 +15,8 @@ public static class UiDialogController_Patch
     private const string SPEECHMOD_DIALOGBUTTON_NAME = "SpeechMod_DialogButton";
     private const string SCROLL_VIEW_PATH = "/StaticCanvas/Dialogue/Body/View/Scroll View";
 
-	[HarmonyPostfix]
-	[HarmonyPatch(typeof(DialogController), nameof(DialogController.Initialize))]
+    [HarmonyPostfix]
+    [HarmonyPatch(typeof(DialogController), nameof(DialogController.Initialize))]
     public static void Initialize_Postfix()
     {
         if (!Main.Enabled)
@@ -72,36 +72,36 @@ public static class UiDialogController_Patch
     [HarmonyPostfix]
     public static void HandleOnCueShow_Postfix()
     {
-	    if (!Main.Enabled)
-		    return;
+        if (!Main.Enabled)
+            return;
 
 #if DEBUG
-	    Debug.Log($"{nameof(DialogController)}_{nameof(HandleOnCueShow_Postfix)}");
+        Debug.Log($"{nameof(DialogController)}_{nameof(HandleOnCueShow_Postfix)}");
 #endif
 
-	    if (!Main.Settings!.AutoPlay)
-	    {
+        if (!Main.Settings!.AutoPlay)
+        {
 #if DEBUG
-		    Debug.Log($"{nameof(DialogController)}: AutoPlay is disabled!");
+            Debug.Log($"{nameof(DialogController)}: AutoPlay is disabled!");
 #endif
-		    return;
-	    }
+            return;
+        }
 
-	    string key = Game.Instance?.DialogController?.CurrentCue?.Text?.Key;
-	    if (string.IsNullOrWhiteSpace(key))
-		    key = Game.Instance?.DialogController?.CurrentCue?.Text?.Shared?.String?.Key;
+        string key = Game.Instance?.DialogController?.CurrentCue?.Text?.Key;
+        if (string.IsNullOrWhiteSpace(key))
+            key = Game.Instance?.DialogController?.CurrentCue?.Text?.Shared?.String?.Key;
 
-	    if (string.IsNullOrWhiteSpace(key))
-		    return;
+        if (string.IsNullOrWhiteSpace(key))
+            return;
 
-	    // Stop playing and don't play if the dialog is voice acted.
-	    if (!Main.Settings.AutoPlayIgnoreVoice &&
-	        !string.IsNullOrWhiteSpace(LocalizationManager.SoundPack?.GetText(key, false)))
-	    {
-		    Main.Speech?.Stop();
-		    return;
-	    }
+        // Stop playing and don't play if the dialog is voice acted.
+        if (!Main.Settings.AutoPlayIgnoreVoice &&
+            !string.IsNullOrWhiteSpace(LocalizationManager.SoundPack?.GetText(key, false)))
+        {
+            Main.Speech?.Stop();
+            return;
+        }
 
-	    Main.Speech?.SpeakDialog(Game.Instance?.DialogController?.CurrentCue?.DisplayText, 0.5f);
+        Main.Speech?.SpeakDialog(Game.Instance?.DialogController?.CurrentCue?.DisplayText, 0.5f);
     }
 }

@@ -17,8 +17,8 @@ public class DialogAnswerBaseView_Patch
 {
     private const string DIALOG_ANSWER_BUTTON_NAME = "SpeechMod_DialogAnswerButton";
 
-	[HarmonyPostfix]
-	[HarmonyPatch(typeof(TempOptionUI), nameof(TempOptionUI.Initialize), typeof(int), typeof(BlueprintAnswer))]
+    [HarmonyPostfix]
+    [HarmonyPatch(typeof(TempOptionUI), nameof(TempOptionUI.Initialize), typeof(int), typeof(BlueprintAnswer))]
     public static void AddHooks_Postfix(TempOptionUI __instance, int index, BlueprintAnswer answer)
     {
         if (!Main.Enabled)

@@ -92,36 +92,36 @@ public static class UIHelper
         return path;
     }
 
-	/// <summary>
-	/// Returns true if the component was added, false if it already existed.
-	/// </summary>
-	/// <typeparam name="T">The type of component.</typeparam>
-	/// <param name="gameObject">The GameObject to add the component to.</param>
-	/// <param name="component">The component that either was added, or already existed.</param>
-	/// <returns></returns>
-	public static bool TryAddComponent<T>(this GameObject gameObject, out T component) where T : Component
-	{
-		component = gameObject.GetComponent<T>();
-		if (component != null)
-		{
-			return false;
-		}
-		component = gameObject.AddComponent<T>();
-		return true;
-	}
+    /// <summary>
+    /// Returns true if the component was added, false if it already existed.
+    /// </summary>
+    /// <typeparam name="T">The type of component.</typeparam>
+    /// <param name="gameObject">The GameObject to add the component to.</param>
+    /// <param name="component">The component that either was added, or already existed.</param>
+    /// <returns></returns>
+    public static bool TryAddComponent<T>(this GameObject gameObject, out T component) where T : Component
+    {
+        component = gameObject.GetComponent<T>();
+        if (component != null)
+        {
+            return false;
+        }
+        component = gameObject.AddComponent<T>();
+        return true;
+    }
 
-	public static T EnsureComponent<T>(this GameObject gameObject) where T : Component
-	{
-		var component = gameObject.GetComponent<T>();
-		if (component == null)
-		{
-			component = gameObject.AddComponent<T>();
-		}
-		return component;
-	}
+    public static T EnsureComponent<T>(this GameObject gameObject) where T : Component
+    {
+        var component = gameObject.GetComponent<T>();
+        if (component == null)
+        {
+            component = gameObject.AddComponent<T>();
+        }
+        return component;
+    }
 
-	public static T EnsureComponent<T>(this Transform transform) where T : Component
-	{
-		return transform.gameObject.EnsureComponent<T>();
-	}
+    public static T EnsureComponent<T>(this Transform transform) where T : Component
+    {
+        return transform.gameObject.EnsureComponent<T>();
+    }
 }

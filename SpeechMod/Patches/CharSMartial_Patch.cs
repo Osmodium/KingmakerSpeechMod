@@ -11,19 +11,19 @@ namespace SpeechMod.Patches;
 [HarmonyPatch]
 public static class CharSMartial_Patch
 {
-	[HarmonyPostfix]
-	[HarmonyPatch(typeof(CharSMartial), nameof(CharSMartial.FillProficiencies), typeof(UnitDescriptor))]
-	public static void FillProficiencies_Postfix(CharSMartial __instance, UnitDescriptor unit)
-	{
-		if (!Main.Enabled)
-		{
-			return;
-		}
+    [HarmonyPostfix]
+    [HarmonyPatch(typeof(CharSMartial), nameof(CharSMartial.FillProficiencies), typeof(UnitDescriptor))]
+    public static void FillProficiencies_Postfix(CharSMartial __instance, UnitDescriptor unit)
+    {
+        if (!Main.Enabled)
+        {
+            return;
+        }
 
 #if DEBUG
-		Debug.Log($"{nameof(CharSMartial)}_{nameof(FillProficiencies_Postfix)}");
+        Debug.Log($"{nameof(CharSMartial)}_{nameof(FillProficiencies_Postfix)}");
 #endif
 
-		__instance.WeaponProficiecyContainer.HookupTextToSpeechOnTransform();
-	}
+        __instance.WeaponProficiecyContainer.HookupTextToSpeechOnTransform();
+    }
 }

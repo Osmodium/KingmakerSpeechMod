@@ -10,9 +10,9 @@ namespace SpeechMod.Patches;
 [HarmonyPatch]
 public class DialogMessageBox_Patch
 {
-	[HarmonyPostfix]
+    [HarmonyPostfix]
     [HarmonyPatch(typeof(DialogMessageBox), nameof(DialogMessageBox.Initialize))]
-	public static void Initialize_Postfix(DialogMessageBox __instance)
+    public static void Initialize_Postfix(DialogMessageBox __instance)
     {
         if (!Main.Enabled)
             return;

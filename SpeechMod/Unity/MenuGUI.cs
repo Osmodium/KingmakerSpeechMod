@@ -155,7 +155,7 @@ public static class MenuGUI
 
         GUILayout.BeginVertical("", GUI.skin.box);
 
-		GUILayout.EndVertical();
+        GUILayout.EndVertical();
     }
 
     private static void AddVoiceSelector(string label, ref int voice, ref string previewString, ref int rate, ref int volume, ref int pitch, VoiceType type)

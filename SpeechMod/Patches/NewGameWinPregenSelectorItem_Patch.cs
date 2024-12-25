@@ -8,22 +8,22 @@ namespace SpeechMod.Patches;
 
 public static class NewGameWinPregenSelectorItem_Patch
 {
-	private const string DESCRIPTION_PATH = "/Canvas/NewGameWindow/Body/Content/Pregen/PregenSelector/Description/DescriptionView/Viewport/Content/Content/Description (1)";
+    private const string DESCRIPTION_PATH = "/Canvas/NewGameWindow/Body/Content/Pregen/PregenSelector/Description/DescriptionView/Viewport/Content/Content/Description (1)";
 
-	[HarmonyPostfix]
-	[HarmonyPatch(typeof(NewGameWinPregenSelectorItem), nameof(NewGameWinPregenSelectorItem.Init), typeof(ChargenUnit))]
-	public static void Init_Postfix(NewGameWinPregenSelectorItem __instance, ChargenUnit chargenUnit)
-	{
-		if (!Main.Enabled)
-		{
-			return;
-		}
+    [HarmonyPostfix]
+    [HarmonyPatch(typeof(NewGameWinPregenSelectorItem), nameof(NewGameWinPregenSelectorItem.Init), typeof(ChargenUnit))]
+    public static void Init_Postfix(NewGameWinPregenSelectorItem __instance, ChargenUnit chargenUnit)
+    {
+        if (!Main.Enabled)
+        {
+            return;
+        }
 #if DEBUG
-		Debug.Log($"{nameof(NewGameWinPregenSelectorItem)}_{nameof(Init_Postfix)}");
+        Debug.Log($"{nameof(NewGameWinPregenSelectorItem)}_{nameof(Init_Postfix)}");
 #endif
-		__instance.m_PregenClass.HookupTextToSpeech();
-		__instance.m_PregenName.HookupTextToSpeech();
+        __instance.m_PregenClass.HookupTextToSpeech();
+        __instance.m_PregenName.HookupTextToSpeech();
 
-		__instance.transform.Find(DESCRIPTION_PATH).HookupTextToSpeechOnTransform();
-	}
+        __instance.transform.Find(DESCRIPTION_PATH).HookupTextToSpeechOnTransform();
+    }
 }

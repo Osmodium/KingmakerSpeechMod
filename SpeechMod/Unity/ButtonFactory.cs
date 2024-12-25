@@ -1,9 +1,5 @@
-﻿using Kingmaker.Blueprints;
-using SpeechMod.Unity.Extensions;
+﻿using SpeechMod.Unity.Extensions;
 using System.Linq;
-using Kingmaker;
-using Kingmaker.UI.FullScreenUITypes;
-using Kingmaker.Utility;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -15,13 +11,8 @@ namespace SpeechMod.Unity;
 
 public static class ButtonFactory
 {
-	//private const string ARROW_BUTTON_PATH = "/ServiceWindow/Encyclopedia/PathView/Next";
-	private const string ARROW_BUTTON_PATH = "/StaticCanvas/Dialogue/Body/View/Scroll View/ButtonEdge";
-	private const string ARROW_BUTTON_PREFAB_NAME = "SpeechMod_ArrowButtonPrefab";
-
-    //private const string TEMP_ARROW_BUTTON_PATH = "SurfaceStaticPartPCView/StaticCanvas/SurfaceHUD/SurfaceActionBarPCView/MainContainer/ActionBarContainer/LeftSide/BackgroundContainer/Mask/Container/SurfaceActionBarPatyWeaponsView/CurrentSet/Layout/WeaponSlotsContainer/ConvertButton";
-    //private const string TEMP_ARROW_BUTTON_PREFAB_NAME = "SpeechMod_Temporary_ArrowButtonPrefab";
-
+    private const string ARROW_BUTTON_PATH = "/StaticCanvas/Dialogue/Body/View/Scroll View/ButtonEdge";
+    private const string ARROW_BUTTON_PREFAB_NAME = "SpeechMod_ArrowButtonPrefab";
     private static GameObject ArrowButton => UIHelper.TryFind(ARROW_BUTTON_PATH)?.gameObject;
 
     private static GameObject CreatePlayButton(Transform parent, UnityAction action, string text)
@@ -35,14 +26,14 @@ public static class ButtonFactory
         }
         else
         {
-			Debug.LogWarning("ArrowButton not found! Try loading resource...");
-			return null;
+            Debug.LogWarning("ArrowButton not found! Try loading resource...");
+            return null;
         }
 
         buttonGameObject.transform!.localRotation = Quaternion.Euler(0, 0, 90);
         buttonGameObject.transform!.localScale = new Vector3(0.75f, 0.75f, 1f);
 
-		SetupUIButton(buttonGameObject, action, text);
+        SetupUIButton(buttonGameObject, action, text);
 
         return buttonGameObject;
     }
@@ -55,8 +46,8 @@ public static class ButtonFactory
         var button = buttonGameObject.GetComponent<Button>();
         if (button == null)
         {
-	        Debug.LogWarning("Button not found!");
-			button = buttonGameObject.AddComponent<Button>();
+            Debug.LogWarning("Button not found!");
+            button = buttonGameObject.AddComponent<Button>();
         }
 
         button.onClick.RemoveAllListeners();

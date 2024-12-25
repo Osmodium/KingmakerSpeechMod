@@ -12,8 +12,8 @@ namespace SpeechMod.Patches;
 [HarmonyPatch]
 public class DialogController_Patch
 {
-	[HarmonyPatch(typeof(DialogController), nameof(DialogController.SelectAnswer), typeof(BlueprintAnswer), typeof(UnitEntityData))]
-	[HarmonyPrefix]
+    [HarmonyPatch(typeof(DialogController), nameof(DialogController.SelectAnswer), typeof(BlueprintAnswer), typeof(UnitEntityData))]
+    [HarmonyPrefix]
     public static void SelectAnswer_Prefix(BlueprintAnswer answer)
     {
         if (!Main.Enabled)

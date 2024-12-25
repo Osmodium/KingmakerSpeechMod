@@ -10,9 +10,9 @@ namespace SpeechMod.Patches;
 [HarmonyPatch]
 public class TermsOfUsePCView_Patch
 {
-	[HarmonyPatch(typeof(TermsOfUseController), nameof(TermsOfUseController.OnShow))]
+    [HarmonyPatch(typeof(TermsOfUseController), nameof(TermsOfUseController.OnShow))]
     [HarmonyPostfix]
-	public static void OnShot_Postfix(TermsOfUseController __instance)
+    public static void OnShot_Postfix(TermsOfUseController __instance)
     {
         if (!Main.Enabled)
             return;

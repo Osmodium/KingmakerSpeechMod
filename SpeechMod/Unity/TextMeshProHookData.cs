@@ -6,16 +6,16 @@ namespace SpeechMod.Unity;
 
 public class TextMeshProHookData : MonoBehaviour
 {
-	public CompositeDisposable Disposables = new();
+    public CompositeDisposable Disposables = new();
 
-	public FontStyles FontStyles { get; set; }
-	public Color Color { get; set; }
-	public bool ExtraPadding { get; set; }
+    public FontStyles FontStyles { get; set; }
+    public Color Color { get; set; }
+    public bool ExtraPadding { get; set; }
 
-	public string TextOverride { get; set; }
+    public string TextOverride { get; set; }
 
 private void OnDestroy()
-	{
-		Disposables.Dispose();
-	}
+    {
+        Disposables.Dispose();
+    }
 }

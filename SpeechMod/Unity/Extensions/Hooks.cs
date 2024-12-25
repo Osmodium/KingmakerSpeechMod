@@ -84,76 +84,76 @@ public static class Hooks
             return;
         }
 
-		// If the parent is clickable, don't hook up the text to speech, unless forced.
-		if (!force && textMeshProTransform.IsParentClickable())
+        // If the parent is clickable, don't hook up the text to speech, unless forced.
+        if (!force && textMeshProTransform.IsParentClickable())
         {
             return;
         }
 
-		// Add the hook data to the text mesh pro. If it already exists, return.
-		if (!textMeshProTransform.gameObject.TryAddComponent<TextMeshProHookData>(out var hookData))
-	        return;
+        // Add the hook data to the text mesh pro. If it already exists, return.
+        if (!textMeshProTransform.gameObject.TryAddComponent<TextMeshProHookData>(out var hookData))
+            return;
 
-		// Save the text style, color and extra padding
-		hookData.FontStyles = textMeshPro.fontStyle;
-		hookData.Color = textMeshPro.color;
-		hookData.ExtraPadding = textMeshPro.extraPadding;
+        // Save the text style, color and extra padding
+        hookData.FontStyles = textMeshPro.fontStyle;
+        hookData.Color = textMeshPro.color;
+        hookData.ExtraPadding = textMeshPro.extraPadding;
         if (textOverride != null)
-		{
-			hookData.TextOverride = textOverride;
-		}
+        {
+            hookData.TextOverride = textOverride;
+        }
 
-		// Add the block pointer propagation component to the text mesh pro, so that it blocks the pointer from triggering elements behind it.
-		textMeshProTransform.EnsureComponent<BlockPointerPropagation>();
+        // Add the block pointer propagation component to the text mesh pro, so that it blocks the pointer from triggering elements behind it.
+        textMeshProTransform.EnsureComponent<BlockPointerPropagation>();
 
-		// Make the text mesh pro clickable
-		textMeshPro.raycastTarget = true;
+        // Make the text mesh pro clickable
+        textMeshPro.raycastTarget = true;
 
-		// Subscribe to the pointer enter, and add it to the disposables for ensuring it gets cleaned up.
-		textMeshPro.OnPointerEnterAsObservable()
-	        .Subscribe(
-	        _ =>
-	        {
-		        if (Main.Settings!.FontStyleOnHover)
-		        {
-			        for (int i = 0; i < Main.Settings.FontStyles!.Length; i++)
-			        {
-				        if (Main.Settings.FontStyles[i])
-				        {
-					        textMeshPro.fontStyle ^=
-						        (FontStyles)Enum.Parse(typeof(FontStyles), Main.FontStyleNames![i]!, true);
-				        }
-			        }
+        // Subscribe to the pointer enter, and add it to the disposables for ensuring it gets cleaned up.
+        textMeshPro.OnPointerEnterAsObservable()
+            .Subscribe(
+            _ =>
+            {
+                if (Main.Settings!.FontStyleOnHover)
+                {
+                    for (int i = 0; i < Main.Settings.FontStyles!.Length; i++)
+                    {
+                        if (Main.Settings.FontStyles[i])
+                        {
+                            textMeshPro.fontStyle ^=
+                                (FontStyles)Enum.Parse(typeof(FontStyles), Main.FontStyleNames![i]!, true);
+                        }
+                    }
 
-			        textMeshPro.extraPadding = false;
-		        }
+                    textMeshPro.extraPadding = false;
+                }
 
-		        if (Main.Settings.ColorOnHover)
-		        {
-			        textMeshPro.color = m_HoverColor;
-		        }
-	        }
+                if (Main.Settings.ColorOnHover)
+                {
+                    textMeshPro.color = m_HoverColor;
+                }
+            }
         ).AddTo(hookData.Disposables);
 
-		// Subscribe to the pointer exit, and add it to the disposables for ensuring it gets cleaned up.
-		textMeshPro.OnPointerExitAsObservable().Subscribe(
-			_ =>
-	        {
-		        textMeshPro.fontStyle = hookData.FontStyles;
-		        textMeshPro.color = hookData.Color;
-		        textMeshPro.extraPadding = hookData.ExtraPadding;
-			}
+        // Subscribe to the pointer exit, and add it to the disposables for ensuring it gets cleaned up.
+        textMeshPro.OnPointerExitAsObservable().Subscribe(
+            _ =>
+            {
+                textMeshPro.fontStyle = hookData.FontStyles;
+                textMeshPro.color = hookData.Color;
+                textMeshPro.extraPadding = hookData.ExtraPadding;
+            }
         ).AddTo(hookData.Disposables);
 
-		// Subscribe to the pointer click, and add it to the disposables for ensuring it gets cleaned up.
-		textMeshPro.OnPointerClickAsObservable().Subscribe(
-	        clickEvent =>
-	        {
-		        if (clickEvent?.button == UnityEngine.EventSystems.PointerEventData.InputButton.Left)
-		        {
-			        Main.Speech?.Speak(hookData.TextOverride ?? textMeshPro.text);
-		        }
-	        }
+        // Subscribe to the pointer click, and add it to the disposables for ensuring it gets cleaned up.
+        textMeshPro.OnPointerClickAsObservable().Subscribe(
+            clickEvent =>
+            {
+                if (clickEvent?.button == UnityEngine.EventSystems.PointerEventData.InputButton.Left)
+                {
+                    Main.Speech?.Speak(hookData.TextOverride ?? textMeshPro.text);
+                }
+            }
         ).AddTo(hookData.Disposables);
     }
 }

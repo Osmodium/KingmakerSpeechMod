@@ -4,6 +4,7 @@ using SpeechMod.Unity;
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
+using UnityEngine;
 
 namespace SpeechMod.Voice;
 
@@ -79,7 +80,7 @@ public class WindowsSpeech : ISpeech
     {
         text = SpeakBegin + text + SpeakEnd;
         if (Main.Settings?.LogVoicedLines == true)
-            UnityEngine.Debug.Log(text);
+            Debug.Log(text);
         WindowsVoiceUnity.Speak(text, Length(text), delay);
     }
 
@@ -96,8 +97,8 @@ public class WindowsSpeech : ISpeech
             return;
         }
 
-        text = text.PrepareText();
         text = new Regex("<[^>]+>").Replace(text, "");
+        text = text.PrepareText();
 
         text = voiceType switch
         {
