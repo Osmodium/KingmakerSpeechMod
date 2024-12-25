@@ -1,8 +1,8 @@
-﻿//namespace SpeechMod.Configuration.Settings;
+﻿namespace SpeechMod.Configuration.Settings;
 
-//public enum SettingStatus
-//{
-//    NOT_APPLIED = 0,
-//    WORKING = 1,
-//    ERROR = 2
-//}
+public enum SettingStatus
+{
+    NOT_APPLIED = 0,
+    WORKING = 1,
+    ERROR = 2
+}
