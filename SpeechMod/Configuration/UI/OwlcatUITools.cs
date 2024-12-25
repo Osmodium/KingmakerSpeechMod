@@ -1,20 +1,19 @@
-﻿//using Kingmaker.UI.Models.SettingsUI;
-//using Kingmaker.UI.Models.SettingsUI.SettingAssets;
-//using ModConfiguration.Localization;
-//using UnityEngine;
+﻿using Kingmaker.UI.SettingsUI;
+using SpeechMod.Localization;
+using UnityEngine;
 
-//namespace SpeechMod.Configuration.UI;
+namespace SpeechMod.Configuration.UI;
 
-//public static class OwlcatUITools
-//{
-//    public static UISettingsGroup MakeSettingsGroup(string key, string name, params UISettingsEntityBase[] settings)
-//    {
-//        var group = ScriptableObject.CreateInstance<UISettingsGroup>();
-//        group.name = key;
-//        group.Title = ModLocalizationManager.CreateString(key, name);
+public static class OwlcatUITools
+{
+    public static SettingsGroup MakeSettingsGroup(string key, string name, params SettingsEntityBase[] settings)
+    {
+        var group = ScriptableObject.CreateInstance<SettingsGroup>();
+        group.name = key;
+        group.Title = ModLocalizationManager.CreateString(key, name);
 
-//        group.SettingsList = settings;
+        group.SettingsList = settings;
 
-//        return group;
-//    }
-//}
+        return group;
+    }
+}
