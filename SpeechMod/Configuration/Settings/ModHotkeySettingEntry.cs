@@ -28,14 +28,16 @@ public abstract class ModHotkeySettingEntry : ModSettingEntry
     public override SettingsEntityBase GetUISettings() => UiSettingEntity;
 
     public string GetBindName() => $"{ModConfigurationManager.Instance?.SettingsPrefix}.newcontrols.ui.{Key}";
+
     public override void BuildUIAndLink()
     {
+        Debug.Log("BuildUIAndLink");
         UiSettingEntity = MakeKeyBind();
         //UiSettingEntity.LinkSetting(SettingEntity);
-        //(SettingEntity as IReadOnlySettingEntity<KeyBindingPair>).OnValueChanged += delegate
-        //{
-        //    TryEnable();
-        //};
+        UiSettingEntity.OnValueChangedAction += delegate
+        {
+            TryEnable();
+        };
     }
 
     private SettingsEntityKeybind MakeKeyBind()
@@ -49,10 +51,12 @@ public abstract class ModHotkeySettingEntry : ModSettingEntry
 
     protected void RegisterKeybind()
     {
-        if (Status != SettingStatus.NOT_APPLIED) return;
+        Debug.Log("RegisterKeybind");
 
-        var currentValue = UiSettingEntity.m_CurrentBindings;
+        if (Status != SettingStatus.NOT_APPLIED)
+            return;
 
+        var currentValue = UiSettingEntity.GetDefaults();
         if (currentValue.Binding1.Key != KeyCode.None)
         {
             Game.Instance.Keyboard.RegisterBinding(
@@ -84,6 +88,7 @@ public abstract class ModHotkeySettingEntry : ModSettingEntry
 
     protected SettingStatus TryEnableAndPatch(Type type)
     {
+        Debug.Log("TryEnableAndPatch");
         TryFix();
         if (Status != SettingStatus.NOT_APPLIED)
         {
@@ -109,16 +114,17 @@ public abstract class ModHotkeySettingEntry : ModSettingEntry
     /// </summary>
     private void TryFix()
     {
+        Debug.Log("TryFix");
         var curValue = UiSettingEntity.m_CurrentBindings;
-        var defaultGroup = UiSettingEntity.GetDefaults().GameModesGroup;
-        var defaultTrigger = UiSettingEntity.GetDefaults().TriggerOnHold;
-        if (curValue.GameModesGroup != defaultGroup || curValue.TriggerOnHold != defaultTrigger)
-        {
-            curValue.GameModesGroup = defaultGroup;
-            curValue.TriggerOnHold = defaultTrigger;
-            UiSettingEntity.PresetEntity.SetDefaultValueFromCurrent();
-            ReSavingRequired = true;
-            ModConfigurationManager.Instance?.ModEntry?.Logger?.Log($"{Title} had outdated hotkey settings, migrated.");
-        }
+        var defaults = UiSettingEntity.GetDefaults();
+
+        if (defaults == null || (curValue.GameModesGroup == defaults.GameModesGroup && curValue.TriggerOnHold == defaults.TriggerOnHold))
+            return;
+
+        curValue.GameModesGroup = defaults.GameModesGroup;
+        curValue.TriggerOnHold = defaults.TriggerOnHold;
+        //UiSettingEntity.PresetEntity.SetDefaultValueFromCurrent();
+        ReSavingRequired = true;
+        ModConfigurationManager.Instance?.ModEntry?.Logger?.Log($"{Title} had outdated hotkey settings, migrated.");
     }
 }

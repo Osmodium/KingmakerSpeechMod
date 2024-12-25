@@ -1,9 +1,11 @@
-﻿using HarmonyLib;
+﻿using System.Security.Cryptography.X509Certificates;
+using HarmonyLib;
 using Kingmaker;
 using Kingmaker.Localization;
 using Kingmaker.UI;
 using Kingmaker.UI.Common;
 using SpeechMod.Configuration.Settings;
+using UniRx.Triggers;
 #if DEBUG
 using UnityEngine;
 #endif
@@ -26,12 +28,12 @@ public class PlaybackStop : ModHotkeySettingEntry
     [HarmonyPatch]
     private static class Patches
     {
-        [HarmonyPatch(typeof(KeyboardAccess), nameof(KeyboardAccess.Bind))]
+        [HarmonyPatch(typeof(UICommon), nameof(UICommon.Initialize))]
         [HarmonyPostfix]
-        private static void Add(KeyboardAccess __instance)
+        private static void Add(UICommon __instance)
         {
 #if DEBUG
-            Debug.Log($"{nameof(KeyboardAccess)}_{nameof(KeyboardAccess.Bind)}_Postfix : {BIND_NAME}");
+            Debug.Log($"{nameof(UICommon)}_{nameof(UICommon.Initialize)}_Postfix : {BIND_NAME}");
 #endif
             Game.Instance!.Keyboard!.Bind(BIND_NAME, StopPlayback);
         }

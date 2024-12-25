@@ -2,13 +2,14 @@
 using Kingmaker;
 using Kingmaker.UI;
 using Kingmaker.UI.SettingsUI;
+using Kingmaker.Utility;
 using SpeechMod.Configuration.Settings;
 using SpeechMod.Configuration.UI;
 using SpeechMod.Localization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Kingmaker.Utility;
+using UnityEngine;
 using static UnityModManagerNet.UnityModManager;
 
 namespace SpeechMod.Configuration;
@@ -30,14 +31,18 @@ public class ModConfigurationManager
         ModLocalizationManager.Init();
     }
 
-    private bool Initialized = false;
+    private bool _initialized;
 
     public void Initialize()
     {
-        if (Initialized) return;
-        Initialized = true;
+        if (_initialized)
+            return;
 
-        foreach (var setting in GroupedSettings.SelectMany(settings => settings.Value))
+        _initialized = true;
+        var list = GroupedSettings.SelectMany(settings => settings.Value).ToArray();
+
+        Debug.Log($"Build and Enable all of {list.Length} grouped settings");
+        foreach (var setting in list)
         {
             setting.BuildUIAndLink();
             setting.TryEnable();
@@ -62,17 +67,20 @@ public static class SettingsUIPatches
     {
         if (Enumerable.Any(Game.Instance.SettingsManager.m_SoundSettingsList, group => group.name?.StartsWith(ModConfigurationManager.Instance.SettingsPrefix) ?? false))
         {
+            Debug.Log($"No group starts with {ModConfigurationManager.Instance.SettingsPrefix}!");
             return;
         }
 
+        Debug.Log("Initialize ModConfigurationManager!");
         ModConfigurationManager.Instance?.Initialize();
-
-        foreach (var settings in ModConfigurationManager.Instance.GroupedSettings)
+        foreach (var settings in ModConfigurationManager.Instance!.GroupedSettings)
         {
+            var key = $"{ModConfigurationManager.Instance.SettingsPrefix}.group.{settings.Key}";
+            var settingsGroup = OwlcatUITools.MakeSettingsGroup(key, "Speech Mod", settings.Value?.Select(x => x.GetUISettings()).ToArray());
+            Debug.Log($"Adding settings group {settingsGroup.Title} with {settingsGroup.SettingsList.Length} items, to key {key}...");
             Game.Instance.SettingsManager.m_SoundSettingsList?.Add(
-                OwlcatUITools.MakeSettingsGroup($"{ModConfigurationManager.Instance.SettingsPrefix}.group.{settings.Key}", "Speech Mod",
-                    settings.Value?.Select(x => x.GetUISettings()).ToArray()
-                ));
+                settingsGroup
+            );
         }
     }
 
@@ -82,6 +90,7 @@ public static class SettingsUIPatches
     {
         if (name == null || !name.StartsWith(ModConfigurationManager.Instance.SettingsPrefix))
         {
+            Debug.LogWarning($"{name} can't be registered since it's either null or doesn't start with {ModConfigurationManager.Instance.SettingsPrefix}!");
             return true;
         }
         __result = true;
