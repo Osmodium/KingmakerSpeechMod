@@ -16,7 +16,7 @@ Look at the globalmap_arrow for a possible better arrow
 /!LIGHT_SETUP/SceneUICanvas/Motivation/Label/
 Kingmaker.UI.MainMenuUI.MotivationTextView
 
-🔲 Campaign description
+✅ Campaign description
 /Canvas/NewGameWindow/Body/Content/Story/DescriptionBlock/Description/
 
 🔲 Character description block
