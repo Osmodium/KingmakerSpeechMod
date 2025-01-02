@@ -1,4 +1,4 @@
-# Pathfinder Kingmaker - SpeechMod
+﻿# Pathfinder Kingmaker - SpeechMod
 By [Osmodium](https://github.com/Osmodium)
 
 ## This mod is made for Pathfinder Kingmaker and introduces TTS (TextToSpeech) in most places.
@@ -21,9 +21,11 @@ Disclaimer: I do **NOT** intend to support issues related to the NaturalVoicesSA
 
 ### How to install
 
- 1. Download the PFKingmakerSpeechMod mod file and unzip.
- 
- ...TODO
+ 1. Install the Unity Mod Manager﻿.
+ 2. Install the mod using the Unity Mod Manager﻿ or extract the archive to your game's mod folder (e.g. '\Steam\steamapps\common\Pathfinder Kingmaker\Mods').
+ 3. Start the game and load a save or start a new save (the mod's functions can't accessed from the main menu).
+ 4. Open the Unity Mod Manager﻿ by pressing CTRL + F10.
+ 5. Adjust the settings in the mod's menu ().﻿
  
  x. Launch Pathfinder Kingmaker, you may need to hit **ctrl+F10** to see the mod manager window.
 
@@ -42,12 +44,12 @@ None, though a bunch of stuff still to do :)
 #### 1) Dialog
 When in dialog you can press the play button next to the left image to listen to the current block of dialog. If autoplay is enabled, you don't have to push the playbutton.
 
-
+<image>
 
 #### 2) Dialog Answers
 Also when in dialog, you can choose to have playbuttons for each of the dialog answers, and which color the hover effect should make the answer, so you know when you are selecting it or having it playback.
 
-
+<image>
 
 #### 3) Inspection Information
 When inspecting items and links (through *right-click->Info* or just *right-click* for expanded tooltip) *hover* over the text and *left click*.
