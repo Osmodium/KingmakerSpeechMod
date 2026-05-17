@@ -1,4 +1,6 @@
 ﻿using HarmonyLib;
+using SpeechMod.Configuration;
+using SpeechMod.Keybinds;
 using SpeechMod.Unity;
 using SpeechMod.Unity.Extensions;
 using SpeechMod.Voice;
@@ -56,6 +58,10 @@ public static class Main
         var harmony = new Harmony(modEntry.Info?.Id);
         harmony.PatchAll(Assembly.GetExecutingAssembly());
 
+        ModConfigurationManager.Build(harmony, modEntry, Constants.SETTINGS_PREFIX);
+        SetUpSettings();
+        harmony.CreateClassProcessor(typeof(SettingsUIPatches)).Patch();
+
         Logger?.Log(Speech?.GetStatusMessage());
 
         if (!SetAvailableVoices())
@@ -66,6 +72,14 @@ public static class Main
         Debug.Log("Pathfinder Kingmaker Speech Mod Initialized!");
         m_Loaded = true;
         return true;
+    }
+
+    private static void SetUpSettings()
+    {
+        if (ModConfigurationManager.Instance.GroupedSettings.TryGetValue("main", out _))
+            return;
+
+        ModConfigurationManager.Instance.GroupedSettings.Add("main", [new PlaybackStop()]);
     }
 
     private static bool SetAvailableVoices()

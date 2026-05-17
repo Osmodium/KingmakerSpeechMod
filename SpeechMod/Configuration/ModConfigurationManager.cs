@@ -1,90 +1,99 @@
-﻿//using HarmonyLib;
-//using Kingmaker;
-//using Kingmaker.Settings;
-//using Kingmaker.UI.InputSystems;
-//using Kingmaker.UI.Models.SettingsUI;
-//using ModConfiguration.Localization;
-//using SpeechMod.Configuration.Settings;
-//using SpeechMod.Configuration.UI;
-//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using static UnityModManagerNet.UnityModManager;
+﻿using HarmonyLib;
+using Kingmaker;
+using Kingmaker.UI;
+using Kingmaker.UI.SettingsUI;
+using Kingmaker.Utility;
+using SpeechMod.Configuration.Settings;
+using SpeechMod.Configuration.UI;
+using SpeechMod.Localization;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using static UnityModManagerNet.UnityModManager;
 
-//namespace SpeechMod.Configuration;
+namespace SpeechMod.Configuration;
 
-//public class ModConfigurationManager
-//{
-//    public Dictionary<string, List<ModSettingEntry>> GroupedSettings = new();
-//    public Harmony HarmonyInstance { get; protected set; }
-//    public ModEntry ModEntry { get; protected set; }
-//    public string SettingsPrefix = Guid.NewGuid().ToString();
+public class ModConfigurationManager
+{
+    public Dictionary<string, List<ModSettingEntry>> GroupedSettings = new();
+    public Harmony HarmonyInstance { get; private set; }
+    public ModEntry ModEntry { get; private set; }
+    public string SettingsPrefix = Guid.NewGuid().ToString();
 
-//    private ModConfigurationManager() { }
+    private ModConfigurationManager() { }
 
-//    public static void Build(Harmony harmonyInstance, ModEntry modEntry, string settingsPrefix)
-//    {
-//        Instance.HarmonyInstance = harmonyInstance;
-//        Instance.ModEntry = modEntry;
-//        Instance.SettingsPrefix = settingsPrefix;
-//        ModLocalizationManager.Init();
-//    }
+    public static void Build(Harmony harmonyInstance, ModEntry modEntry, string settingsPrefix)
+    {
+        Instance.HarmonyInstance = harmonyInstance;
+        Instance.ModEntry = modEntry;
+        Instance.SettingsPrefix = settingsPrefix;
+        ModLocalizationManager.Init();
+    }
 
-//    private bool Initialized = false;
+    private bool _initialized;
 
-//    public void Initialize()
-//    {
-//        if (Initialized) return;
-//        Initialized = true;
+    public void Initialize()
+    {
+        if (_initialized)
+            return;
 
-//        foreach (var setting in GroupedSettings.SelectMany(settings => settings.Value))
-//        {
-//            setting.BuildUIAndLink();
-//            setting.TryEnable();
-//        }
+        _initialized = true;
+        var list = GroupedSettings.SelectMany(settings => settings.Value).ToArray();
 
-//        if (ModHotkeySettingEntry.ReSavingRequired)
-//        {
-//            SettingsController.Instance.SaveAll();
-//            Instance.ModEntry.Logger.Log("Hotkey settings were migrated");
-//        }
-//    }
+        Debug.Log($"Build and Enable all of {list.Length} grouped settings");
+        foreach (var setting in list)
+        {
+            setting.BuildUIAndLink();
+            setting.TryEnable();
+        }
 
-//    public static ModConfigurationManager Instance { get; } = new();
-//}
+        if (ModHotkeySettingEntry.ReSavingRequired)
+        {
+            SettingsProvider.Default.SaveAll();
+            Instance.ModEntry.Logger.Log("Hotkey settings were migrated");
+        }
+    }
 
-//[HarmonyPatch]
-//public static class SettingsUIPatches
-//{
-//    [HarmonyPatch(typeof(UISettingsManager), nameof(UISettingsManager.Initialize))]
-//    [HarmonyPostfix]
-//    static void AddSettingsGroup()
-//    {
-//        if (Game.Instance.UISettingsManager.m_SoundSettingsList.Any(group => group.name?.StartsWith(ModConfigurationManager.Instance.SettingsPrefix) ?? false))
-//        {
-//            return;
-//        }
+    public static ModConfigurationManager Instance { get; } = new();
+}
 
-//        ModConfigurationManager.Instance?.Initialize();
+[HarmonyPatch]
+public static class SettingsUIPatches
+{
+    [HarmonyPatch(typeof(SettingsManager), nameof(SettingsManager.Initialize))]
+    [HarmonyPostfix]
+    static void AddSettingsGroup()
+    {
+        if (Enumerable.Any(Game.Instance.SettingsManager.m_SoundSettingsList, group => group.name?.StartsWith(ModConfigurationManager.Instance.SettingsPrefix) ?? false))
+        {
+            Debug.Log($"No group starts with {ModConfigurationManager.Instance.SettingsPrefix}!");
+            return;
+        }
 
-//        foreach (var settings in ModConfigurationManager.Instance.GroupedSettings)
-//        {
-//            Game.Instance.UISettingsManager.m_SoundSettingsList?.Add(
-//                OwlcatUITools.MakeSettingsGroup($"{ModConfigurationManager.Instance.SettingsPrefix}.group.{settings.Key}", "Speech Mod",
-//                    settings.Value?.Select(x => x.GetUISettings()).ToArray()
-//                ));
-//        }
-//    }
+        Debug.Log("Initialize ModConfigurationManager!");
+        ModConfigurationManager.Instance?.Initialize();
+        foreach (var settings in ModConfigurationManager.Instance!.GroupedSettings)
+        {
+            var key = $"{ModConfigurationManager.Instance.SettingsPrefix}.group.{settings.Key}";
+            var settingsGroup = OwlcatUITools.MakeSettingsGroup(key, "Speech Mod", settings.Value?.Select(x => x.GetUISettings()).ToArray());
+            Debug.Log($"Adding settings group {settingsGroup.Title} with {settingsGroup.SettingsList.Length} items, to key {key}...");
+            Game.Instance.SettingsManager.m_SoundSettingsList?.Add(
+                settingsGroup
+            );
+        }
+    }
 
-//    [HarmonyPatch(typeof(KeyboardAccess), nameof(KeyboardAccess.CanBeRegistered))]
-//    [HarmonyPrefix]
-//    public static bool CanRegisterAnything(ref bool __result, string name)
-//    {
-//        if (name == null || !name.StartsWith(ModConfigurationManager.Instance.SettingsPrefix))
-//        {
-//            return true;
-//        }
-//        __result = true;
-//        return false;
-//    }
-//}
+    [HarmonyPatch(typeof(KeyboardAccess), nameof(KeyboardAccess.CanBeRegistered))]
+    [HarmonyPrefix]
+    public static bool CanRegisterAnything(ref bool __result, string name)
+    {
+        if (name == null || !name.StartsWith(ModConfigurationManager.Instance.SettingsPrefix))
+        {
+            Debug.LogWarning($"{name} can't be registered since it's either null or doesn't start with {ModConfigurationManager.Instance.SettingsPrefix}!");
+            return true;
+        }
+        __result = true;
+        return false;
+    }
+}

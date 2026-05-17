@@ -1,46 +1,52 @@
-﻿//using Kingmaker.UI.Models.SettingsUI.SettingAssets;
-//using System;
+﻿using System;
+using Kingmaker.UI.SettingsUI;
+using SpeechMod.Localization;
+using UnityEngine;
 
-//namespace SpeechMod.Configuration.Settings;
+namespace SpeechMod.Configuration.Settings;
 
-//public abstract class ModSettingEntry
-//{
-//    public readonly string Key;
-//    public readonly string Title;
-//    public readonly string Tooltip;
+public abstract class ModSettingEntry(string key, string title, string tooltip)
+{
+    protected readonly string Key = key;
+    protected readonly string Title = title;
 
-//    public SettingStatus Status { get; private set; } = SettingStatus.NOT_APPLIED;
+    protected SettingStatus Status { get; private set; } = SettingStatus.NOT_APPLIED;
 
-//    protected ModSettingEntry(string key, string title, string tooltip)
-//    {
-//        Key = key;
-//        Title = title;
-//        Tooltip = tooltip;
-//    }
+    public abstract SettingStatus TryEnable();
 
-//    public abstract SettingStatus TryEnable();
+    public abstract void BuildUIAndLink();
 
-//    public abstract void BuildUIAndLink();
+    public abstract SettingsEntityBase GetUISettings();
 
-//    public abstract UISettingsEntityBase GetUISettings();
+    protected void InitializeSettingsEntity(SettingsEntityBase entity)
+    {
+        var prefix = ModConfigurationManager.Instance?.SettingsPrefix;
+        entity.Description = ModLocalizationManager.CreateString($"{prefix}.feature.{Key}.description", Title);
+        entity.TooltipDescription = ModLocalizationManager.CreateString($"{prefix}.feature.{Key}.tooltip-description", tooltip);
+        entity.VisibleCheck = new SettingsEntityBase.VisibleCondition();
+    }
 
-//    protected SettingStatus TryPatchInternal(params Type[] type)
-//    {
-//        if (Status != SettingStatus.NOT_APPLIED) return Status;
-//        try
-//        {
-//            foreach (var t in type)
-//            {
-//                ModConfigurationManager.Instance?.HarmonyInstance?.CreateClassProcessor(t)?.Patch();
-//            }
-//            Status = SettingStatus.WORKING;
-//            ModConfigurationManager.Instance?.ModEntry?.Logger?.Log($"{Title} patch succeeded");
-//        }
-//        catch (Exception ex)
-//        {
-//            ModConfigurationManager.Instance?.ModEntry?.Logger?.Error($"{Title} patch exception: {ex.Message}");
-//            Status = SettingStatus.ERROR;
-//        }
-//        return Status;
-//    }
-//}
+    protected SettingStatus TryPatchInternal(params Type[] type)
+    {
+        Debug.Log("TryPatchInternal");
+
+        if (Status != SettingStatus.NOT_APPLIED)
+            return Status;
+
+        try
+        {
+            foreach (var t in type)
+            {
+                ModConfigurationManager.Instance?.HarmonyInstance?.CreateClassProcessor(t)?.Patch();
+            }
+            Status = SettingStatus.WORKING;
+            ModConfigurationManager.Instance?.ModEntry?.Logger?.Log($"{Title} patch succeeded");
+        }
+        catch (Exception ex)
+        {
+            ModConfigurationManager.Instance?.ModEntry?.Logger?.Error($"{Title} patch exception: {ex.Message}");
+            Status = SettingStatus.ERROR;
+        }
+        return Status;
+    }
+}
