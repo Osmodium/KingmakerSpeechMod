@@ -10,11 +10,11 @@ namespace SpeechMod.Localization;
 
 public static class ModLocalizationManager
 {
-    private static ModLocalizationPack m_EnPack;
+    private static ModLocalizationPack _enPack;
 
     public static void Init()
     {
-        m_EnPack = LoadPack(Locale.enGB);
+        _enPack = LoadPack(Locale.enGB);
 
         ApplyLocalization(LocalizationManager.CurrentLocale);
     }
@@ -23,7 +23,7 @@ public static class ModLocalizationManager
     {
         var currentPack = LocalizationManager.CurrentPack;
         if (currentPack == null) return;
-        foreach (var entry in m_EnPack.Strings)
+        foreach (var entry in _enPack.Strings)
         {
             Debug.Log($"Adding {entry.Key}: {entry.Value.Text} to current pack strings...");
             currentPack.Strings.Add(entry.Key, entry.Value.Text);
@@ -43,7 +43,7 @@ public static class ModLocalizationManager
         using StreamWriter file = new(packFile);
         using JsonWriter jsonReader = new JsonTextWriter(file);
         JsonSerializer serializer = new();
-        serializer.Serialize(jsonReader, m_EnPack);
+        serializer.Serialize(jsonReader, _enPack);
 #endif
     }
 
@@ -75,7 +75,7 @@ public static class ModLocalizationManager
 
     public static LocalizedString CreateString(string key, string value)
     {
-        if (m_EnPack.Strings.ContainsKey(key))
+        if (_enPack.Strings.ContainsKey(key))
         {
             return new LocalizedString { m_ShouldProcess = false, m_Key = key };
         }
@@ -83,7 +83,7 @@ public static class ModLocalizationManager
         {
             ModConfigurationManager.Instance?.ModEntry?.Logger?.Log($"Missing localization string {key}");
 #if DEBUG
-            m_EnPack.Strings[key] = new() { Text = value };
+            _enPack.Strings[key] = new() { Text = value };
 #endif
             return new LocalizedString { m_ShouldProcess = false, m_Key = key };
         }

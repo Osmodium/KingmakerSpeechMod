@@ -1,17 +1,15 @@
 ﻿using Kingmaker;
 using Kingmaker.UI.SettingsUI;
-using SpeechMod.Localization;
 using System;
 using UnityEngine;
 
 namespace SpeechMod.Configuration.Settings;
 
-public abstract class ModHotkeySettingEntry(string key, string title, string tooltip, string defaultKeyPairString)
-    : ModSettingEntry(key, title, tooltip)
+public abstract class ModHotkeySettingEntry(string key, string title, string tooltip, string defaultKeyPairString) : ModSettingEntry(key, title, tooltip)
 {
     private SettingsEntityKeybind UiSettingEntity { get; set; }
 
-    public static bool ReSavingRequired { get; private set; } = false;
+    public static bool ReSavingRequired { get; private set; }
 
     public override SettingsEntityBase GetUISettings() => UiSettingEntity;
 
@@ -19,27 +17,24 @@ public abstract class ModHotkeySettingEntry(string key, string title, string too
 
     public override void BuildUIAndLink()
     {
-        Debug.Log("BuildUIAndLink");
-        UiSettingEntity = MakeKeyBind();
-        UiSettingEntity.OnValueChangedAction += delegate
-        {
-            TryEnable();
-        };
+        UiSettingEntity = CreateKeybindEntity();
+        UiSettingEntity.OnValueChangedAction += delegate { TryEnable(); };
     }
 
-    private SettingsEntityKeybind MakeKeyBind()
+    private SettingsEntityKeybind CreateKeybindEntity()
     {
-        var keyBindSetting = ScriptableObject.CreateInstance<SettingsEntityKeybind>();
-        keyBindSetting.Description = ModLocalizationManager.CreateString($"{ModConfigurationManager.Instance?.SettingsPrefix}.feature.{Key}.description", Title);
-        keyBindSetting.TooltipDescription = ModLocalizationManager.CreateString($"{ModConfigurationManager.Instance?.SettingsPrefix}.feature.{Key}.tooltip-description", Tooltip);
-        keyBindSetting.name = $"{ModConfigurationManager.Instance?.SettingsPrefix}.newcontrols.ui.{Key}";
-        keyBindSetting.m_CurrentBindings = ParseKeyPairString(defaultKeyPairString);
-        keyBindSetting.DefaultBinding1 = keyBindSetting.m_CurrentBindings.Binding1;
-        keyBindSetting.DefaultBinding2 = keyBindSetting.m_CurrentBindings.Binding2;
-        keyBindSetting.GameModesGroup = keyBindSetting.m_CurrentBindings.GameModesGroup;
-        keyBindSetting.TriggerOnHold = keyBindSetting.m_CurrentBindings.TriggerOnHold;
-        keyBindSetting.VisibleCheck = new SettingsEntityBase.VisibleCondition();
-        return keyBindSetting;
+        var entity = ScriptableObject.CreateInstance<SettingsEntityKeybind>();
+        InitializeSettingsEntity(entity);
+        entity.name = $"{ModConfigurationManager.Instance?.SettingsPrefix}.newcontrols.ui.{Key}";
+
+        var bindings = ParseKeyPairString(defaultKeyPairString);
+        entity.m_CurrentBindings = bindings;
+        entity.DefaultBinding1 = bindings.Binding1;
+        entity.DefaultBinding2 = bindings.Binding2;
+        entity.GameModesGroup = bindings.GameModesGroup;
+        entity.TriggerOnHold = bindings.TriggerOnHold;
+        
+        return entity;
     }
 
     /// <summary>
@@ -73,100 +68,67 @@ public abstract class ModHotkeySettingEntry(string key, string title, string too
             return data;
 
         var i = 0;
-        while (i < bindingString.Length - 1)
+        while (i < bindingString.Length)
         {
-            switch (bindingString[i])
-            {
-                case '%':
-                    data.IsCtrlDown = true;
-                    i++;
-                    break;
-                case '#':
-                    data.IsShiftDown = true;
-                    i++;
-                    break;
-                case '&':
-                    data.IsAltDown = true;
-                    i++;
-                    break;
-                default:
-                    goto done;
-            }
+            var c = bindingString[i];
+            if (c == '%') data.IsCtrlDown = true;
+            else if (c == '#') data.IsShiftDown = true;
+            else if (c == '&') data.IsAltDown = true;
+            else break;
+            i++;
         }
-        done:
-        var keyName = bindingString.Substring(i);
-        if (Enum.TryParse<KeyCode>(keyName, out var keyCode))
+
+        if (i < bindingString.Length && Enum.TryParse<KeyCode>(bindingString.Substring(i), out var keyCode))
             data.Key = keyCode;
 
         return data;
     }
 
-    protected void RegisterKeybind()
+    private void TryRegisterBinding(string bindName, BindingKeysData binding, Kingmaker.UI.KeyboardAccess.GameModesGroup group, bool triggerOnHold, string label)
     {
-        Debug.Log("RegisterKeybind");
+        if (binding.Key == KeyCode.None)
+        {
+            ModConfigurationManager.Instance?.ModEntry?.Logger?.Log($"{Title} {label} empty");
+            return;
+        }
 
+        Game.Instance.Keyboard.RegisterBinding(bindName, binding, group, triggerOnHold);
+        ModConfigurationManager.Instance?.ModEntry?.Logger?.Log($"{Title} {label} registered: {binding}");
+    }
+
+    private void RegisterKeybind()
+    {
         if (Status != SettingStatus.NOT_APPLIED)
             return;
 
-        var currentValue = UiSettingEntity.GetDefaults();
-        if (currentValue.Binding1.Key != KeyCode.None)
-        {
-            Game.Instance.Keyboard.RegisterBinding(
-                GetBindName(),
-                currentValue.Binding1,
-                currentValue.GameModesGroup,
-                currentValue.TriggerOnHold);
-            ModConfigurationManager.Instance?.ModEntry?.Logger?.Log($"{Title} binding 1 registered: {currentValue.Binding1}");
-        }
-        else
-        {
-            ModConfigurationManager.Instance?.ModEntry?.Logger?.Log($"{Title} binding 1 empty");
-        }
-
-        if (currentValue.Binding2.Key != KeyCode.None)
-        {
-            Game.Instance.Keyboard.RegisterBinding(
-                GetBindName(),
-                currentValue.Binding2,
-                currentValue.GameModesGroup,
-                currentValue.TriggerOnHold);
-            ModConfigurationManager.Instance?.ModEntry?.Logger?.Log($"{Title} binding 2 registered: {currentValue.Binding2}");
-        }
-        else
-        {
-            ModConfigurationManager.Instance?.ModEntry?.Logger?.Log($"{Title} binding 2 empty");
-        }
+        var defaults = UiSettingEntity.GetDefaults();
+        var bindName = GetBindName();
+        TryRegisterBinding(bindName, defaults.Binding1, defaults.GameModesGroup, defaults.TriggerOnHold, "binding 1");
+        TryRegisterBinding(bindName, defaults.Binding2, defaults.GameModesGroup, defaults.TriggerOnHold, "binding 2");
     }
 
     protected SettingStatus TryEnableAndPatch(Type type)
     {
-        Debug.Log("TryEnableAndPatch");
-        TryFix();
+        TryMigrateBindings();
+
         if (Status != SettingStatus.NOT_APPLIED)
-        {
             return Status;
-        }
 
         RegisterKeybind();
+
         var currentValue = UiSettingEntity.m_CurrentBindings;
         if (currentValue.Binding1.Key != KeyCode.None || currentValue.Binding2.Key != KeyCode.None)
-        {
             return TryPatchInternal(type);
-        }
-        else
-        {
-            ModConfigurationManager.Instance?.ModEntry?.Logger?.Log($"{Title} binding 1 and binding 2 empty, setting integration skipped");
-        }
+
+        ModConfigurationManager.Instance?.ModEntry?.Logger?.Log($"{Title} both bindings empty, setting integration skipped");
         return SettingStatus.NOT_APPLIED;
     }
 
     /// <summary>
-    /// If hotkey group or trigger changes, those values need to be updated manually
-    /// and later saved
+    /// If hotkey group or trigger changes between mod versions, migrate saved values to new defaults.
     /// </summary>
-    private void TryFix()
+    private void TryMigrateBindings()
     {
-        Debug.Log("TryFix");
         var curValue = UiSettingEntity.m_CurrentBindings;
         var defaults = UiSettingEntity.GetDefaults();
 
