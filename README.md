@@ -21,11 +21,11 @@ Disclaimer: I do **NOT** intend to support issues related to the NaturalVoicesSA
 
 ### How to install
 
- 1. Install the Unity Mod Manager﻿.
- 2. Install the mod using the Unity Mod Manager﻿ or extract the archive to your game's mod folder (e.g. '\Steam\steamapps\common\Pathfinder Kingmaker\Mods').
+ 1. Install the Unity Mod Manager.
+ 2. Install the mod using the Unity Mod Manager or extract the archive to your game's mod folder (e.g. '\Steam\steamapps\common\Pathfinder Kingmaker\Mods').
  3. Start the game and load a save or start a new save (the mod's functions can't accessed from the main menu).
- 4. Open the Unity Mod Manager﻿ by pressing CTRL + F10.
- 5. Adjust the settings in the mod's menu ().﻿
+ 4. Open the Unity Mod Manager by pressing CTRL + F10.
+ 5. Adjust the settings in the mod's menu ().
  
  x. Launch Pathfinder Kingmaker, you may need to hit **ctrl+F10** to see the mod manager window.
 

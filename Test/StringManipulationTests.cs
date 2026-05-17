@@ -23,7 +23,7 @@ public class StringManipulationTests
             MaleVoice = 2,
             MaleRate = 0,
             MaleVolume = 100,
-            AvailableVoices = new[] { "Narrator", "Female", "Male" }
+            AvailableVoices = ["Narrator", "Female", "Male"]
         };
     }
 
@@ -66,8 +66,8 @@ public class StringManipulationTests
                 "<voice required=\"Name=Male\"><pitch absmiddle=\"0\"/><rate absspeed=\"0\"/><volume level=\"100\"/>Here we are again, Commander. </voice><voice required=\"Name=Narrator\"><pitch absmiddle=\"0\"/><rate absspeed=\"0\"/><volume level=\"100\"/>Liotr looks grim but focused.</voice><voice required=\"Name=Male\"><pitch absmiddle=\"0\"/><rate absspeed=\"0\"/><volume level=\"100\"/> So let us take another glimpse into the past</voice>"
             },
             {
-                "<color=#616060>The booming voice of an old man dressed in I-o-mædæan robes shakes the walls of the hall.</color> Get away from him, demon! Let the boy go. By the blade of the Inheritor, you touch him only over my dead body",
-                "<voice required=\"Name=Narrator\"><pitch absmiddle=\"0\"/><rate absspeed=\"0\"/><volume level=\"100\"/>The booming voice of an old man dressed in I-o-mædæan robes shakes the walls of the hall.</voice><voice required=\"Name=Male\"><pitch absmiddle=\"0\"/><rate absspeed=\"0\"/><volume level=\"100\"/> Get away from him, demon! Let the boy go. By the blade of the Inheritor, you touch him only over my dead body</voice>"
+                "<color=#616060>The booming voice of an old man dressed in I-o-mÃ¦dÃ¦an robes shakes the walls of the hall.</color> Get away from him, demon! Let the boy go. By the blade of the Inheritor, you touch him only over my dead body",
+                "<voice required=\"Name=Narrator\"><pitch absmiddle=\"0\"/><rate absspeed=\"0\"/><volume level=\"100\"/>The booming voice of an old man dressed in I-o-mÃ¦dÃ¦an robes shakes the walls of the hall.</voice><voice required=\"Name=Male\"><pitch absmiddle=\"0\"/><rate absspeed=\"0\"/><volume level=\"100\"/> Get away from him, demon! Let the boy go. By the blade of the Inheritor, you touch him only over my dead body</voice>"
             }
         };
     }
@@ -81,8 +81,8 @@ public class StringManipulationTests
                 "<voice required=\"Name=Female\"><pitch absmiddle=\"0\"/><rate absspeed=\"0\"/><volume level=\"100\"/>Here we are again, Commander. </voice><voice required=\"Name=Narrator\"><pitch absmiddle=\"0\"/><rate absspeed=\"0\"/><volume level=\"100\"/>Liotr looks grim but focused.</voice><voice required=\"Name=Female\"><pitch absmiddle=\"0\"/><rate absspeed=\"0\"/><volume level=\"100\"/> So let us take another glimpse into the past</voice>"
             },
             {
-                "<color=#616060>The booming voice of an old man dressed in I-o-mædæan robes shakes the walls of the hall.</color> Get away from him, demon! Let the boy go. By the blade of the Inheritor, you touch him only over my dead body",
-                "<voice required=\"Name=Narrator\"><pitch absmiddle=\"0\"/><rate absspeed=\"0\"/><volume level=\"100\"/>The booming voice of an old man dressed in I-o-mædæan robes shakes the walls of the hall.</voice><voice required=\"Name=Female\"><pitch absmiddle=\"0\"/><rate absspeed=\"0\"/><volume level=\"100\"/> Get away from him, demon! Let the boy go. By the blade of the Inheritor, you touch him only over my dead body</voice>"
+                "<color=#616060>The booming voice of an old man dressed in I-o-mÃ¦dÃ¦an robes shakes the walls of the hall.</color> Get away from him, demon! Let the boy go. By the blade of the Inheritor, you touch him only over my dead body",
+                "<voice required=\"Name=Narrator\"><pitch absmiddle=\"0\"/><rate absspeed=\"0\"/><volume level=\"100\"/>The booming voice of an old man dressed in I-o-mÃ¦dÃ¦an robes shakes the walls of the hall.</voice><voice required=\"Name=Female\"><pitch absmiddle=\"0\"/><rate absspeed=\"0\"/><volume level=\"100\"/> Get away from him, demon! Let the boy go. By the blade of the Inheritor, you touch him only over my dead body</voice>"
             }
         };
     }
