@@ -4,20 +4,13 @@ using UnityEngine;
 
 namespace SpeechMod.Configuration.Settings;
 
-public abstract class ModSettingEntry
+public abstract class ModSettingEntry(string key, string title, string tooltip)
 {
-    public readonly string Key;
-    public readonly string Title;
-    public readonly string Tooltip;
+    protected readonly string Key = key;
+    protected readonly string Title = title;
+    protected readonly string Tooltip = tooltip;
 
-    public SettingStatus Status { get; private set; } = SettingStatus.NOT_APPLIED;
-
-    protected ModSettingEntry(string key, string title, string tooltip)
-    {
-        Key = key;
-        Title = title;
-        Tooltip = tooltip;
-    }
+    protected SettingStatus Status { get; private set; } = SettingStatus.NOT_APPLIED;
 
     public abstract SettingStatus TryEnable();
 

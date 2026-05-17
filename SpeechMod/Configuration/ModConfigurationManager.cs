@@ -17,8 +17,8 @@ namespace SpeechMod.Configuration;
 public class ModConfigurationManager
 {
     public Dictionary<string, List<ModSettingEntry>> GroupedSettings = new();
-    public Harmony HarmonyInstance { get; protected set; }
-    public ModEntry ModEntry { get; protected set; }
+    public Harmony HarmonyInstance { get; private set; }
+    public ModEntry ModEntry { get; private set; }
     public string SettingsPrefix = Guid.NewGuid().ToString();
 
     private ModConfigurationManager() { }
