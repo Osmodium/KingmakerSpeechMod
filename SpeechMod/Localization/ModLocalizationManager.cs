@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace SpeechMod.Localization;
 
-internal class ModLocalizationManager
+public static class ModLocalizationManager
 {
     private static ModLocalizationPack m_EnPack;
 
@@ -17,8 +17,6 @@ internal class ModLocalizationManager
         m_EnPack = LoadPack(Locale.enGB);
 
         ApplyLocalization(LocalizationManager.CurrentLocale);
-
-        //LocalizationManager.OnLocaleChanged += ApplyLocalization;
     }
 
     public static void ApplyLocalization(Locale currentLocale)
