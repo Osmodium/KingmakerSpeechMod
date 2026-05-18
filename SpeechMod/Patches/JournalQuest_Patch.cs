@@ -39,7 +39,7 @@ public static class JournalQuest_Patch
         Debug.Log($"{nameof(JournalQuestObjective)}_{nameof(AddButtonsToParts)}");
 #endif
 
-        __instance.Header.TryAddButtonToTextMeshPro(BUTTON_NAME, new Vector2(0f, -25f), new Vector3(0.6f, 0.6f, 1.0f));
+        __instance.Header.TryAddButtonToTextMeshPro(BUTTON_NAME, anchoredPosition: new Vector2(0f, -25f), scale: new Vector3(0.6f, 0.6f, 1.0f));
         __instance.Description.HookupTextToSpeech();
         __instance.m_TimeToFail.HookupTextToSpeech();
     }
