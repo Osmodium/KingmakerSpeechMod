@@ -2,7 +2,7 @@
 By [Osmodium](https://github.com/Osmodium)
 
 ## This mod is made for Pathfinder Kingmaker and introduces TTS (TextToSpeech) in most places.
-Version: 0.1.0
+Version: 0.2.0
 
 **Disclaimer: UNDER DEVELOPMENT**
 
@@ -37,7 +37,7 @@ Disclaimer: I do **NOT** intend to support issues related to the NaturalVoicesSA
 None, though a bunch of stuff still to do :)
 
 #### Todo:
-- Still some work to do, see https://github.com/Osmodium/KingmakerSpeechMod/blob/main/Todo.txt for more info.
+- Still some work to do, see https://github.com/Osmodium/KingmakerSpeechMod/blob/main/Todo.md for more info.
 
 ### How to use
 
@@ -62,7 +62,7 @@ In the journal, each of the bigger text blocks and important stuff can be played
 <image>
 
 #### 5) Book Event text
-When encountering a book event, the text can be played by hovering the text part (it will apply the chosen hover effect) and left-clicking.
+When encountering a book event, the text can be played by hovering the text part (it will apply the chosen hover effect) and left-clicking. A play button is also available for book event interchapters.
 Historical text also supported.
 
 <image>
