@@ -2,10 +2,13 @@
 using Kingmaker.UI.LevelUp;
 using Kingmaker.UI.LevelUp.NewGame;
 using SpeechMod.Unity.Extensions;
+#if DEBUG
 using UnityEngine;
+#endif
 
 namespace SpeechMod.Patches;
 
+[HarmonyPatch]
 public static class NewGameWinPregenSelectorItem_Patch
 {
     private const string DESCRIPTION_PATH = "/Canvas/NewGameWindow/Body/Content/Pregen/PregenSelector/Description/DescriptionView/Viewport/Content/Content/Description (1)";
