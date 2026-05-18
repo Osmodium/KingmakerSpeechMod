@@ -23,6 +23,16 @@ Items are grouped by UI area. Each item includes the relevant Unity path and/or 
   - Path: `/StaticCanvas/Dialogue/Body/View/Scroll View/ButtonEdge`
   - Note: Look at `globalmap_arrow` for a possible better arrow
 
+- [x] **Load ButtonEdge prefab from scene (scene-independent)**
+  - Path: `/StaticCanvas/Dialogue/Body/View/Scroll View/ButtonEdge`
+  - Scene: `UI_Ingame_Scene` (build index 11)
+  - Class: `ButtonFactory.cs`
+  - Note: ButtonEdge is NOT a standalone asset; it's baked into the UI scene. Async-load scene by build index, extract the button, store as `DontDestroyOnLoad` prefab, then unload the scene.
+
+- [x] **Refactor ButtonFactory (DRY/SOLID)**
+  - Extracted methods: `Initialize`, `ExtractAndStorePrefab`, `FindButtonEdgeInRoots`, `InstantiateButton`, `CreatePlayButton`, `SetupButton`
+  - `Initialize()` called from `Main.Load()`
+
 - [ ] **Name of left dialog character**
   - Path: `StaticCanvas/Dialogue/AnswerBlock/AnswerName`
   - Class: `Kingmaker.UI.Dialog.DialogController`
@@ -122,6 +132,9 @@ Items are grouped by UI area. Each item includes the relevant Unity path and/or 
   - Path: `/StaticCanvas/BookEventInterchapter/Window/Content/Answer`
   - Class: `Kingmaker.UI.BookEvent.BookEventInterchapterController`
 
+- [ ] **Fix duplicate button in BookEventInterchapterController**
+  - Both `UiDialogController_Patch` and `BookEventInterchapterController_Patch` create buttons when a book event interchapter opens, resulting in two play buttons visible.
+
 - [ ] **Book event**
   - Path: `/StaticCanvas/BookEvent/Window/Content/Cues/Viewport/Content/`
   - Class: `Kingmaker.UI.BookEvent.BookEventController`
@@ -140,4 +153,5 @@ Items are grouped by UI area. Each item includes the relevant Unity path and/or 
 
 - [ ] **Look into Barks**
   - Class: `Kingmaker.UI.Overtip.OvertipController`
+
 
