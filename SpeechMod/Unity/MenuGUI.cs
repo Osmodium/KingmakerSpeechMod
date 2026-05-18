@@ -1,4 +1,5 @@
-﻿using SpeechMod.Voice;
+﻿using SpeechMod.Unity.Extensions;
+using SpeechMod.Voice;
 using System.Linq;
 using UnityEngine;
 
@@ -20,6 +21,16 @@ public static class MenuGUI
         GUILayout.Label("Log speech", GUILayout.ExpandWidth(false));
         Main.Settings.LogVoicedLines = GUILayout.Toggle(Main.Settings.LogVoicedLines, "Enabled");
         GUILayout.EndHorizontal();
+
+        if (GUILayout.Button("Find ButtonEdge Asset ID"))
+        {
+            AssetIdFinder.FindAssetContainingChild("ButtonEdge");
+        }
+
+        if (GUILayout.Button("Find Scene Bundle"))
+        {
+            AssetIdFinder.FindSceneBundle("UI_Ingame_Scene");
+        }
 
         GUILayout.EndVertical();
 #endif

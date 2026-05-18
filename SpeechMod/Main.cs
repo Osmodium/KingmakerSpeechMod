@@ -69,6 +69,8 @@ public static class Main
 
         PhoneticDictionary.LoadDictionary();
 
+        ButtonFactory.Initialize();
+
         Debug.Log("Pathfinder Kingmaker Speech Mod Initialized!");
         m_Loaded = true;
         return true;

@@ -3,6 +3,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using GameObject = UnityEngine.GameObject;
 using Object = UnityEngine.Object;
@@ -12,86 +13,158 @@ namespace SpeechMod.Unity;
 public static class ButtonFactory
 {
     private const string ARROW_BUTTON_PATH = "/StaticCanvas/Dialogue/Body/View/Scroll View/ButtonEdge";
-    private const string ARROW_BUTTON_PREFAB_NAME = "SpeechMod_ArrowButtonPrefab";
-    private static GameObject ArrowButton => UIHelper.TryFind(ARROW_BUTTON_PATH)?.gameObject;
+    private const string BUTTON_EDGE_SCENE_PATH = "Dialogue/Body/View/Scroll View/ButtonEdge";
+    private const string PREFAB_NAME = "SpeechMod_ArrowButtonPrefab";
+    private const int UI_INGAME_SCENE_BUILD_INDEX = 11;
 
-    private static GameObject CreatePlayButton(Transform parent, UnityAction action, string text)
+    private static GameObject _storedPrefab;
+
+    private static GameObject LiveArrowButton => UIHelper.TryFind(ARROW_BUTTON_PATH)?.gameObject;
+
+    /// <summary>
+    /// Call early on game load. Loads the UI scene additively, extracts the ButtonEdge
+    /// as a DontDestroyOnLoad prefab, then unloads the scene.
+    /// </summary>
+    public static void Initialize()
     {
-        GameObject buttonGameObject;
+        if (_storedPrefab != null)
+            return;
 
-        if (ArrowButton != null)
+        var asyncOperation = SceneManager.LoadSceneAsync(UI_INGAME_SCENE_BUILD_INDEX, LoadSceneMode.Additive);
+        if (asyncOperation == null)
         {
-            buttonGameObject = Object.Instantiate(ArrowButton, parent);
-            buttonGameObject!.name = ARROW_BUTTON_PREFAB_NAME;
+            Debug.LogWarning("[SpeechMod] Failed to start loading UI_Ingame_Scene!");
+            return;
+        }
+
+        asyncOperation.allowSceneActivation = false;
+        asyncOperation.priority = 100;
+        asyncOperation.completed += _ => ExtractAndStorePrefab();
+    }
+
+    private static void ExtractAndStorePrefab()
+    {
+        var scene = SceneManager.GetSceneByBuildIndex(UI_INGAME_SCENE_BUILD_INDEX);
+        if (!scene.IsValid() || !scene.isLoaded)
+        {
+            Debug.LogWarning("[SpeechMod] UI_Ingame_Scene not valid after load!");
+            return;
+        }
+
+        var roots = scene.GetRootGameObjects();
+
+        foreach (var root in roots)
+            root.SetActive(false);
+
+        var buttonEdge = FindButtonEdgeInRoots(roots);
+
+        if (buttonEdge != null)
+        {
+            _storedPrefab = Object.Instantiate(buttonEdge);
+            _storedPrefab.name = PREFAB_NAME;
+            _storedPrefab.SetActive(false);
+            Object.DontDestroyOnLoad(_storedPrefab);
+            Debug.Log("[SpeechMod] Successfully stored ArrowButton prefab.");
         }
         else
         {
-            Debug.LogWarning("ArrowButton not found! Try loading resource...");
-            return null;
+            Debug.LogWarning("[SpeechMod] ButtonEdge not found in loaded scene!");
         }
 
-        buttonGameObject.transform!.localRotation = Quaternion.Euler(0, 0, 90);
-        buttonGameObject.transform!.localScale = new Vector3(0.75f, 0.75f, 1f);
+        SceneManager.UnloadSceneAsync(scene);
+    }
 
-        SetupUIButton(buttonGameObject, action, text);
+    private static GameObject FindButtonEdgeInRoots(GameObject[] roots)
+    {
+        foreach (var root in roots)
+        {
+            var found = root.transform.Find(BUTTON_EDGE_SCENE_PATH)?.gameObject;
+            if (found != null)
+                return found;
+        }
+        return null;
+    }
+
+    private static GameObject InstantiateButton(Transform parent)
+    {
+        if (LiveArrowButton != null)
+            return Object.Instantiate(LiveArrowButton, parent);
+
+        if (_storedPrefab != null)
+        {
+            var instance = Object.Instantiate(_storedPrefab, parent);
+            instance.SetActive(true);
+            return instance;
+        }
+
+        Debug.LogWarning("[SpeechMod] ArrowButton not available! Initialize() may not have completed yet.");
+        return null;
+    }
+
+    private static GameObject CreatePlayButton(Transform parent, UnityAction action)
+    {
+        var buttonGameObject = InstantiateButton(parent);
+        if (buttonGameObject == null)
+            return null;
+
+        buttonGameObject.name = PREFAB_NAME;
+        buttonGameObject.transform.localRotation = Quaternion.Euler(0, 0, 90);
+        buttonGameObject.transform.localScale = new Vector3(0.75f, 0.75f, 1f);
+
+        SetupButton(buttonGameObject, action);
 
         return buttonGameObject;
     }
 
-    private static void SetupUIButton(GameObject buttonGameObject, UnityAction action, string text)
+    private static void SetupButton(GameObject buttonGameObject, UnityAction action)
     {
-        if (buttonGameObject == null)
-            return;
-
-        var button = buttonGameObject.GetComponent<Button>();
-        if (button == null)
-        {
-            Debug.LogWarning("Button not found!");
-            button = buttonGameObject.AddComponent<Button>();
-        }
-
+        var button = buttonGameObject.GetComponent<Button>() ?? buttonGameObject.AddComponent<Button>();
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(action);
-
         button.interactable = true;
     }
 
     public static GameObject TryCreatePlayButton(Transform parent, UnityAction action, string text = null)
     {
-        return CreatePlayButton(parent, action, text);
+        return CreatePlayButton(parent, action);
     }
 
-    public static GameObject TryAddButtonToTextMeshPro(this TextMeshProUGUI textMeshPro, string buttonName, Vector2? anchoredPosition = null, Vector3? scale = null, TextMeshProUGUI[] textMeshProUguis = null)
+    public static void TryAddButtonToTextMeshPro(this TextMeshProUGUI textMeshPro, string buttonName, Vector2? anchoredPosition = null, Vector3? scale = null, TextMeshProUGUI[] textMeshProUguis = null)
     {
         var transform = textMeshPro?.transform;
-        var tmpButton = transform.TryFind(buttonName)?.gameObject;
-        if (tmpButton != null)
-            return null;
+        if (transform == null)
+        {
+#if DEBUG
+            Debug.Log($"Can't add button to {textMeshPro?.name} because it has no transform!");
+#endif
+            return;
+        }
+
+        if (transform.TryFind(buttonName)?.gameObject != null)
+            return;
 
 #if DEBUG
-        Debug.Log($"Adding playbutton to {textMeshPro?.name}...");
+        Debug.Log($"Adding play button to {transform.name}...");
 #endif
 
+        var text = textMeshPro.text;
         var button = TryCreatePlayButton(transform, () =>
         {
-            var text = textMeshPro?.text;
             if (textMeshProUguis != null)
-            {
-                text = textMeshProUguis.Where(textOverride => textOverride != null).Select(to => to.text).Aggregate("", (previous, current) => $"{previous}, {current}");
-            }
+                text = textMeshProUguis.Where(t => t != null).Select(t => t.text).Aggregate("", (prev, curr) => $"{prev}, {curr}");
+
             Main.Speech?.Speak(text);
         });
 
         if (button == null || button.transform == null)
-            return null;
+            return;
 
         button.name = buttonName;
         button.RectAlignTopLeft(anchoredPosition);
 
         if (scale.HasValue)
-            button.transform!.localScale = scale.Value;
+            button.transform.localScale = scale.Value;
 
         button.SetActive(true);
-        return button;
     }
 }
