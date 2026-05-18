@@ -1,6 +1,5 @@
 ﻿using HarmonyLib;
 using Kingmaker.UI.BookEvent;
-using SpeechMod.Unity;
 using SpeechMod.Unity.Extensions;
 #if DEBUG
 using Kingmaker;
@@ -25,6 +24,5 @@ public static class BookEventInterchapterController_Patch
 #endif
 
         __instance.m_Cue.HookupTextToSpeech();
-        __instance.m_Answer.OptionName.TryAddButtonToTextMeshPro("SpeechMod_BookEventInterchapterButton", anchoredPosition: new Vector2(0f, -25f), scale: new Vector3(0.6f, 0.6f, 1.0f));
     }
 }
