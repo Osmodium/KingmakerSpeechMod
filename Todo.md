@@ -84,6 +84,9 @@ Items are grouped by UI area. Each item includes the relevant Unity path and/or 
 
 - [ ] **Hint (big) text**
   - Path: `/StaticCanvas/Tooltips/TutorialConstructorBig/Window/Content/Content/ParagraphText(Clone)/Text`
+  
+- [ ] **Global Map Messagebox**
+  - Class: `Kingmaker.UI.GlobalMap.GlobalMapMessageBox`
 
 ---
 
