@@ -146,8 +146,9 @@ Items are grouped by UI area. Each item includes the relevant Unity path and/or 
 
 ## Loading Screen
 
-- [x] **Look into loading screen**
-  - Path: `/Canvas/LoadingScreen/Window/HintBlock/Background/Paper/Background/HintLabel`
+- [ ] **Look into loading screen**
+  - [x] Path: `/Canvas/LoadingScreen/Window/HintBlock/Background/Paper/Background/HintLabel`
+  - [x] Path: `/Canvas/LoadingScreen/Window/MapContainer/Papers/Texts/Description`
   - Class: `Kingmaker.UI.LoadingScreen.LoadingScreen`
 
 ---
@@ -157,4 +158,15 @@ Items are grouped by UI area. Each item includes the relevant Unity path and/or 
 - [ ] **Look into Barks**
   - Class: `Kingmaker.UI.Overtip.OvertipController`
 
+##  Kingdom
 
+- [ ] **The opportunity Window and possibly others**
+  - [x] Class: `Kingmaker.UI.Kingdom.KingdomUIEventWindow`
+  - [x] Class: `Kingmaker.UI.Kingdom.KingdomUILeaderController`
+  - [ ] Class: `Kingmaker.UI.Kingdom.KingdomUILeaderCharacterController`
+  - [x] Class: `Kingmaker.UI.Kingdom.KingdomUIEventWindowFooter`
+  - [x] Class: `Kingmaker.UI.Kingdom.KingdomNameDialogue`
+  - [ ] Class: `Kingmaker.UI.Kingdom.KingdomToolbar`
+  - [ ] Class: `Kingmaker.UI.Kingdom.KingdomStatController`
+  - [ ] Class: `Kingmaker.UI.Kingdom.KingdomPurchaseBuildPoint`
+  
