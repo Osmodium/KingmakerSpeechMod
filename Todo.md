@@ -41,7 +41,7 @@ Items are grouped by UI area. Each item includes the relevant Unity path and/or 
   - Path: `StaticCanvas/Dialogue/SpeakerBlock/SpeakerName`
   - Class: `Kingmaker.UI.Dialog.DialogController`
 
-- [ ] **Stop playback keybinding**
+- [x] **Stop playback keybinding**
   - Class: `PlaybackStop.cs`
   - Note: Look how to add a keybinding to the mod, and which key to use for stopping playback.
 
