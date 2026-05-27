@@ -37,7 +37,8 @@ public static class LoadingScreen_Patch
 #if DEBUG
         Debug.Log($"{nameof(LoadingScreen)}_{nameof(Awake_Postfix)}");
 #endif
-
+        __instance?.CharacterDesctiptionText.HookupTextToSpeech();
+        __instance?.CharacterNameText.HookupTextToSpeech();
         __instance?.Hint.HookupTextToSpeech();
     }
 }
