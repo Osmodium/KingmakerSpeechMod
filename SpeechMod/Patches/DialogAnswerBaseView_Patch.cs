@@ -17,6 +17,23 @@ public class DialogAnswerBaseView_Patch
 {
     private const string DIALOG_ANSWER_BUTTON_NAME = "SpeechMod_DialogAnswerButton";
 
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(TempOptionUI), nameof(TempOptionUI.Initialize), typeof(int), typeof(BlueprintAnswer))]
+    public static void ChangeColor_Prefix(TempOptionUI __instance, int index, BlueprintAnswer answer)
+    {
+        if (!Main.Enabled)
+            return;
+        
+#if DEBUG
+        Debug.Log($"{nameof(TempOptionUI)}_{nameof(ChangeColor_Prefix)}");
+#endif
+        
+        if (Main.Settings.OverrideDialogAnswerFontColor && Game.Instance.Player.Dialog.SelectedAnswers.Contains(answer))
+        {
+            __instance.m_SelectedColor = new  Color(Main.Settings.DialogAnswerFontColorR,  Main.Settings.DialogAnswerFontColorG, Main.Settings.DialogAnswerFontColorB, Main.Settings.DialogAnswerFontColorA);
+        }
+    }
+    
     [HarmonyPostfix]
     [HarmonyPatch(typeof(TempOptionUI), nameof(TempOptionUI.Initialize), typeof(int), typeof(BlueprintAnswer))]
     public static void AddHooks_Postfix(TempOptionUI __instance, int index, BlueprintAnswer answer)
@@ -27,7 +44,7 @@ public class DialogAnswerBaseView_Patch
 #if DEBUG
         Debug.Log($"{nameof(TempOptionUI)}_{nameof(AddHooks_Postfix)}");
 #endif
-
+        
         TryAddDialogButton(__instance.OptionName, __instance, new Vector2(-50f, -23f));
     }
 

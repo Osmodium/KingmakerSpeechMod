@@ -45,6 +45,12 @@ public class Settings : UnityModManager.ModSettings
 
     public bool ShowPlaybackOfDialogAnswers = true;
     public bool SayDialogAnswerNumber = false;
+    
+    public bool OverrideDialogAnswerFontColor = false;
+    public float DialogAnswerFontColorR = 0.3f;
+    public float DialogAnswerFontColorG = 0.15f;
+    public float DialogAnswerFontColorB = 0.17f;
+    public float DialogAnswerFontColorA = 0.75f;
 
     public bool AutoStopPlaybackOnLoading = false;
 

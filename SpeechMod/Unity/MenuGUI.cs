@@ -107,7 +107,9 @@ public static class MenuGUI
         }
 
         GUILayout.EndVertical();
-
+        
+        AddColorPicker("Override font color for selected answers", ref Main.Settings.OverrideDialogAnswerFontColor, "Selected Color", ref Main.Settings.DialogAnswerFontColorR, ref Main.Settings.DialogAnswerFontColorG, ref Main.Settings.DialogAnswerFontColorB, ref Main.Settings.DialogAnswerFontColorA);
+        
         GUILayout.BeginVertical("", GUI.skin.box);
 
         GUILayout.BeginHorizontal();
